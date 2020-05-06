@@ -2,7 +2,7 @@
 name = "storage-bucket"
 version = "0.1.0"
 description = ""
-authors = ["Thomas Borgen <thomas.borgen@greenbird.com>"]
+authors = ["Thomas Borgen <thomas@borgenit.no>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"

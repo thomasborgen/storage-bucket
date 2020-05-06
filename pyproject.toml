@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "storage-bucket"
+version = "0.1.0"
+description = ""
+authors = ["Thomas Borgen <thomas.borgen@greenbird.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+google-cloud-storage = "^1.28.1"
+returns = "^0.13.0"
+attrs = "^19.3.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+wemake-python-styleguide = "^0.14.0"
+pre-commit = "^2.3.0"
+pytest-env = "^0.6.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

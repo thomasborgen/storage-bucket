@@ -1,8 +1,25 @@
 [tool.poetry]
 name = "storage-bucket"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
+license = "MIT"
 authors = ["Thomas Borgen <thomas@borgenit.no>"]
+readme = "README.md"
+
+keywords = [
+  "Storage Bucket",
+  "GCP",
+  "Google Cloud Platform",
+  "monad"
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities"
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -15,6 +32,7 @@ pytest = "^5.2"
 wemake-python-styleguide = "^0.14.0"
 pre-commit = "^2.3.0"
 pytest-env = "^0.6.2"
+pytest-cov = "^2.8.1"
 
 [build-system]
 requires = ["poetry>=0.12"]

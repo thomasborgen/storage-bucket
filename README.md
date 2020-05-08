@@ -1,4 +1,6 @@
-# Google Cloud Platform Storage Bucket EaseyBreezey
+[![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
+
+# Google Cloud Platform Storage Bucket
 
 This package just aims to make life a little bit easier for people who have to work with google cloud storage bucket.
 
@@ -39,10 +41,39 @@ my_data = download_file(
 print(my_data)
 ```
 
+## Supported functions
+
+### Downloading
+
+```python
+from storage_bucket.download_file import DownloadFile, download_file
+
+DownloadFile()('bucket', 'filename')
+download_file('bucket', 'filename')
+```
+
+### Uploading
+```python
+from storage_bucket.upload_file import UploadFile, upload_file
+
+UploadFile()(b'data', 'bucket_name', 'filename')
+upload_file(b'data', 'bucket_name', 'filename')
+```
+
+### Listing
+```python
+from storage_bucket.list_files import ListFiles, list_files
+
+ListFiles()('bucket')
+list_files('bucket')
+
+ListFiles()('bucket', 'foldername/')
+list_files('bucket', 'foldername/')
+```
+
+
 ### The use of [Returns](https://github.com/dry-python/returns) library.
   * Just lets us get rid of all exceptions.
   * Lets us chain stuff so everything looks good.
-  * Lets you use `DownloadFile()(args...).bind(dostuff).alt(dostuffonfailure)`
+  * Lets you use `DownloadFile()(args...).map(dostuff).alt(dostuffonfailure)`
   * Don't like it? use the matching normal function provided for your convenience.
-
-

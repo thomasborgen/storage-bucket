@@ -2,8 +2,6 @@
 
 """Code to safely upload storage bucket files."""
 
-from typing import Union
-
 from attr import dataclass
 from google.cloud.storage import Blob, Bucket, Client
 from returns.functions import raise_exception
@@ -38,7 +36,7 @@ class UploadFile(object):
     _client = Client
 
     @pipeline(ResultE)
-    def __call__(  # noqa: WPS211
+    def __call__(
         self,
         file_data: bytes,
         storage_bucket_name: str,
@@ -66,14 +64,6 @@ class UploadFile(object):
         self, bucket: Bucket, filename: str,
     ) -> object:
         return bucket.blob(filename)
-
-    @safe
-    def _handle_file_data(
-        self, file_data: Union[str, bytes], encoding: str,
-    ) -> bytes:
-        if isinstance(file_data, str):
-            return file_data.encode(encoding)
-        return file_data
 
     @safe
     def _upload_data(

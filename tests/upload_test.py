@@ -8,9 +8,9 @@ import pytest
 from google.api_core.exceptions import BadRequest, NotFound
 from returns.pipeline import is_successful
 
-from storage_bucket.upload_file import UploadFile
+from storage_bucket.upload_file import UploadFile, upload_file
 
-STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME')
+STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'not_set')
 
 
 class TestStorageBucket(object):
@@ -56,7 +56,7 @@ class TestStorageBucket(object):
         """Test upload failure."""
         file_data = 123
         upload_result = UploadFile()(
-            file_data,
+            file_data,  # type: ignore
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename='txt_files/test.txt',
             content_type='plain/text',
@@ -70,7 +70,7 @@ class TestStorageBucket(object):
         upload_result = UploadFile()(
             file_data,
             storage_bucket_name=STORAGE_BUCKET_NAME,
-            filename=None,
+            filename=None,  # type: ignore
             content_type='plain/text',
         )
         assert not is_successful(upload_result)
@@ -87,3 +87,25 @@ class TestStorageBucket(object):
         )
         assert not is_successful(upload_result)
         assert isinstance(upload_result.failure(), BadRequest)
+
+    def test_upload_no_container(self):
+        """Test upload failure."""
+        file_data = b'test'
+        upload_result = upload_file(
+            file_data,
+            storage_bucket_name=STORAGE_BUCKET_NAME,
+            filename='txt_files/test2.txt',
+            content_type='plain/text',
+        )
+        assert upload_result
+
+    def test_upload_no_container_raises(self):
+        """Test upload failure."""
+        file_data = b'test'
+        with pytest.raises(BadRequest):
+            upload_file(
+                file_data,
+                storage_bucket_name=STORAGE_BUCKET_NAME,
+                filename='',
+                content_type='plain/text',
+            )

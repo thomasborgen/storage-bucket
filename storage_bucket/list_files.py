@@ -46,12 +46,6 @@ class ListFiles(object):
     def _initialize_client(self) -> Client:
         return self._client()
 
-    @safe
-    def _get_bucket(
-        self, client: Client, storage_bucket_name: str,
-    ) -> object:
-        return client.get_bucket(storage_bucket_name)
-
 
 def list_files(
     storage_bucket_name: str,

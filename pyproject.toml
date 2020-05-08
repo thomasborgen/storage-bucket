@@ -1,10 +1,12 @@
 [tool.poetry]
 name = "storage-bucket"
-version = "0.1.1"
+version = "0.1.2"
 description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
-license = "MIT"
 authors = ["Thomas Borgen <thomas@borgenit.no>"]
+
+license = "MIT"
 readme = "README.md"
+repository = "https://github.com/thomasborgen/storage-bucket"
 
 keywords = [
   "Storage Bucket",

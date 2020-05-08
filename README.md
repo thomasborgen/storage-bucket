@@ -22,9 +22,18 @@ from storage_bucket.download_file import DownloadFile, download_file
 def use_data_for_something(data):
     print(data)
 
+
+# Normal way, this might throw exception...
+my_data = download_file(
+    'my_bucket',
+    'my_file.txt',
+)
+use_data_for_something(my_data)
+
+
 # Returns Modal way
-downloader = DownloadFile()
-downloader(
+# this will _only_ call use_data_for_something when data is successfully downloaded.
+DownloadFile()(
     'my_bucket',
     'my_file.txt',
 ).map(
@@ -32,13 +41,6 @@ downloader(
 ).alt(
     print,  # print error or send a mail or w/e
 )
-
-# Normal way, this might throw exception.
-my_data = download_file(
-    'my_bucket',
-    'my_file.txt',
-)
-print(my_data)
 ```
 
 ## Supported functions

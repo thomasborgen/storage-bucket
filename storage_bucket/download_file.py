@@ -24,11 +24,7 @@ class DownloadFile(object):
     :param filename: The name of the file to download
     :type filename: str
 
-    :param encoding: Optional, Encoding to use when decoding bytes, defaults
-    to utf-8
-    :type encoding: str
-
-    :return: Success/Failure containers
+    :return: Result[bytes, Exception]
     """
 
     _client = Client

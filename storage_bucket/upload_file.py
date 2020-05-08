@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Code to safely upload storage bucket files."""
+from typing import Literal
 
 from attr import dataclass
 from google.cloud.storage import Blob, Bucket, Client
@@ -30,7 +31,7 @@ class UploadFile(object):
     :param content_type: What type of file to create, defaults to text/plain
     :type content_type: str
 
-    :return: Success/Failure containers
+    :return: Result[Literal[True], Exception]
     """
 
     _client = Client
@@ -42,7 +43,7 @@ class UploadFile(object):
         storage_bucket_name: str,
         filename: str,
         content_type: str = 'application/octet-stream',
-    ) -> ResultE[bool]:
+    ) -> ResultE[Literal[True]]:
         """Download storage bucket file."""
         client = self._initialize_client().unwrap()
         bucket = self._get_bucket(client, storage_bucket_name).unwrap()
@@ -68,7 +69,7 @@ class UploadFile(object):
     @safe
     def _upload_data(
         self, blob: Blob, file_content: bytes, content_type: str,
-    ) -> bool:
+    ) -> Literal[True]:
         blob.upload_from_string(file_content, content_type)
         return True
 

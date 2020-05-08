@@ -10,7 +10,7 @@ from returns.pipeline import is_successful
 
 from storage_bucket.list_files import ListFiles, list_files
 
-STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME')
+STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'bad_name')
 
 
 class TestListingObjects(object):

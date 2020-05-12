@@ -4,6 +4,11 @@
 
 This package just aims to make life a little bit easier for people who have to work with google cloud storage bucket.
 
+* [Downloading](#downloading)
+* [Uploading](#uploading)
+* [Listing](#listing)
+* [Creating Buckets](#creating-buckets)
+
 
 ## Quickstart:
 
@@ -23,7 +28,7 @@ def use_data_for_something(data):
     print(data)
 
 
-# Normal way, this might throw exception...
+# Normal way, this might throw exception... handle them yourself.
 my_data = download_file(
     'my_bucket',
     'my_file.txt',
@@ -33,14 +38,14 @@ use_data_for_something(my_data)
 
 # Returns Modal way
 # this will _only_ call use_data_for_something when data is successfully downloaded.
+# so its completely safe.
 DownloadFile()(
     'my_bucket',
     'my_file.txt',
 ).map(
     use_data_for_something,  # send data to this function,
-).alt(
-    print,  # print error or send a mail or w/e
 )
+
 ```
 
 ## Supported functions
@@ -92,10 +97,17 @@ buckets2 = list_buckets()
 bucket_names2 = list_bucket_names(buckets2)
 ```
 
+### Creating Bucket
+```python
+from storage_bucket.create import CreateBucket, create_bucket
 
+CreateBucket()('bucket-name', 'EU', 'STANDARD')
+create_bucket('bucket-name', 'EU', 'STANDARD')
+
+```
 
 ### The use of [Returns](https://github.com/dry-python/returns) library.
-  * Just lets us get rid of all exceptions.
+  * Lets us get rid of all exceptions.
   * Lets us chain stuff so everything looks good.
   * Lets you use `DownloadFile()(args...).map(dostuff).alt(dostuffonfailure)`
   * Don't like it? use the matching normal function provided for your convenience.

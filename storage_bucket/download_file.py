@@ -3,11 +3,13 @@
 """Code to safely download storage bucket files."""
 
 from attr import dataclass
-from google.cloud.storage import Blob, Bucket, Client
+from google.cloud.storage import Blob, Bucket
 from returns.functions import raise_exception
 from returns.pipeline import pipeline
 from returns.result import ResultE, safe
 from typing_extensions import final
+
+from storage_bucket.get import GetBucket
 
 
 @final
@@ -27,7 +29,7 @@ class DownloadFile(object):
     :return: Result[bytes, Exception]
     """
 
-    _client = Client
+    _get_bucket = GetBucket()
 
     @pipeline(ResultE)
     def __call__(
@@ -36,18 +38,9 @@ class DownloadFile(object):
         filename: str,
     ) -> ResultE[bytes]:
         """Download storage bucket file."""
-        client = self._initialize_client().unwrap()
-        bucket = self._get_bucket(client, storage_bucket_name).unwrap()
+        bucket = self._get_bucket(storage_bucket_name).unwrap()
         blob = self._get_blob(bucket, filename).unwrap()
         return self._get_bytes(blob)
-
-    @safe
-    def _initialize_client(self) -> object:
-        return self._client()
-
-    @safe
-    def _get_bucket(self, client: Client, storage_bucket_name: str) -> object:
-        return client.get_bucket(storage_bucket_name)
 
     @safe
     def _get_blob(self, bucket: Bucket, filename: str) -> object:

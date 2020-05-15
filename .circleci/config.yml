@@ -1,0 +1,25 @@
+version: 2.1
+
+orbs:
+  poetry: thomasborgen/python-poetry-orb@1.0.0
+
+workflows:
+  build_lint_test:
+    jobs:
+      - poetry/install:
+          steps_before:
+            - poetry/check
+      - poetry/shell:
+          name: run flake8 linting
+          args: flake8
+          requires:
+            - poetry/install
+      - poetry/shell:
+          name: run pytest
+          args: pytest
+          steps_before:
+            - run:
+                name: Create google key file
+                command: echo ${GCP_SERVICE_ACCOUNT_KEY} > key.json
+          requires:
+            - poetry/install

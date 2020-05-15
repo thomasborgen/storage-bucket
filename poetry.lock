@@ -467,11 +467,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "4.3.21"
 
-[package.dependencies]
-[package.dependencies.toml]
-optional = true
-version = "*"
-
 [package.extras]
 pipfile = ["pipreqs", "requirementslib"]
 pyproject = ["toml"]
@@ -727,7 +722,7 @@ category = "dev"
 description = "YAML parser and emitter for Python"
 name = "pyyaml"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = "*"
 version = "5.3.1"
 
 [[package]]
@@ -923,7 +918,7 @@ pygments = ">=2.4,<3.0"
 typing_extensions = ">=3.6,<4.0"
 
 [metadata]
-content-hash = "21bb1389557e4c55978c21757a4cc2065732e8f8701af808d5d8f6f640ec4ba0"
+content-hash = "2887d60fdb12a8d103b0d11c998fbf0f4905eccc5a6d2f275eae1f27942c6fb4"
 python-versions = "^3.8"
 
 [metadata.files]

@@ -18,7 +18,6 @@ class GetBucket(object):
     """Get a GCP storage bucket."""
 
     _client = Client
-    _bucket = Bucket
 
     @pipeline(ResultE)
     def __call__(  # noqa: WPS234

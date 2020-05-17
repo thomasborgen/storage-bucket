@@ -10,7 +10,7 @@ from returns.pipeline import is_successful
 
 from storage_bucket.download_file import DownloadFile, download_file
 
-STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME')
+STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'not_set')
 
 
 class TestDownloading(object):

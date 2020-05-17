@@ -18,9 +18,8 @@ class TestStorageBucket(object):
 
     def test_upload_txt_file(self):
         """Test upload ok."""
-        file_data = b'test'
         upload_result = UploadFile()(
-            file_data,
+            b'test',
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename='txt_files/test.txt',
             content_type='plain/text',
@@ -29,9 +28,8 @@ class TestStorageBucket(object):
 
     def test_upload_xml_file(self):
         """Test upload ok."""
-        file_data = b'<xml>test</xml>'
         upload_result = UploadFile()(
-            file_data,
+            b'<xml>test</xml>',
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename='xml_files/test.xml',
             content_type='application/xml',
@@ -40,11 +38,8 @@ class TestStorageBucket(object):
 
     def test_upload_failure_bucket_does_not_exist(self):
         """Test upload failure."""
-        file_data = None
-        with open('tests/files/test.txt', 'rb') as o_file:
-            file_data = o_file.read()
         upload_result = UploadFile()(
-            file_data,
+            b'test',
             storage_bucket_name='bucket-does-not-exist-in-project',
             filename='txt_files/test.txt',
             content_type='plain/text',
@@ -54,9 +49,8 @@ class TestStorageBucket(object):
 
     def test_upload_failure_bad_data(self):
         """Test upload failure."""
-        file_data = 123
         upload_result = UploadFile()(
-            file_data,  # type: ignore
+            123,  # type: ignore # this is on purpose
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename='txt_files/test.txt',
             content_type='plain/text',
@@ -66,9 +60,8 @@ class TestStorageBucket(object):
 
     def test_upload_failure_no_filename(self):
         """Test upload failure."""
-        file_data = b'test'
         upload_result = UploadFile()(
-            file_data,
+            b'test',
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename=None,  # type: ignore
             content_type='plain/text',
@@ -78,9 +71,8 @@ class TestStorageBucket(object):
 
     def test_upload_failure_empty_filename(self):
         """Test upload failure."""
-        file_data = b'test'
         upload_result = UploadFile()(
-            file_data,
+            b'test',
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename='',
             content_type='plain/text',
@@ -89,22 +81,20 @@ class TestStorageBucket(object):
         assert isinstance(upload_result.failure(), BadRequest)
 
     def test_upload_no_container(self):
-        """Test upload failure."""
-        file_data = b'test'
-        upload_result = upload_file(
-            file_data,
+        """Test upload succeedes."""
+        upload_result = upload_file(  # type: ignore
+            b'test',
             storage_bucket_name=STORAGE_BUCKET_NAME,
             filename='txt_files/test2.txt',
             content_type='plain/text',
         )
-        assert upload_result
+        assert upload_result is None
 
     def test_upload_no_container_raises(self):
-        """Test upload failure."""
-        file_data = b'test'
+        """Test upload failure raises exception."""
         with pytest.raises(BadRequest):
             upload_file(
-                file_data,
+                b'test',
                 storage_bucket_name=STORAGE_BUCKET_NAME,
                 filename='',
                 content_type='plain/text',

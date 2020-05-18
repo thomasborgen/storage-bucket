@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """Code to safely download storage bucket files."""
+from functools import partial
 from typing import Optional, Tuple, Union
 
 from attr import dataclass
+from google.cloud.storage import Bucket
 from returns.functions import raise_exception
-from returns.result import safe
+from returns.pipeline import pipeline
+from returns.result import ResultE, safe
 from typing_extensions import final
 
 from storage_bucket.get import GetBucket
@@ -36,19 +39,23 @@ class DeleteFile(object):
 
     _get_bucket = GetBucket()
 
-    @safe
+    @pipeline(ResultE)
     def __call__(  # noqa: WPS234  fix annotation with a timeout type
         self,
         storage_bucket_name: str,
         filename: str,
         generation: Optional[int] = None,
         timeout: Optional[Union[int, Tuple[int, int]]] = None,
-    ) -> None:
+    ) -> ResultE[None]:
         """Delete storage bucket file."""
-        bucket = self._get_bucket(storage_bucket_name).alt(
-            raise_exception,
-        ).unwrap()
+        return self._get_bucket(
+            storage_bucket_name,
+        ).bind(
+            partial(self._delete_file, filename=filename),
+        )
 
+    @safe
+    def _delete_file(self, bucket: Bucket, filename: str) -> None:
         bucket.delete_blob(filename)
 
 

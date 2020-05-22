@@ -54,9 +54,7 @@ jobs:
             echo "export NEW_VERSION=\"$NEW_VERSION\""  >> $BASH_ENV
           name: store new version
 
-      - run:
-          command: env
-          name: print env
+      - poetry/build
 
       - run:
           name: Commit and push pyproject.toml

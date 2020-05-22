@@ -30,12 +30,27 @@ jobs:
             fi
           name: Retrieve semver or stop job
 
-      - poetry/check
+      - run:
+          command: export OLD_VERSION=`poetry version`
+          name: store old version
+
       - poetry/version:
           args: ${SEMVER_INCREMENT}
+
+      - run:
+          command: export NEW_VERSION=`poetry version`
+          name: store new version
+
       - run:
           command: env
           name: print env
+
+      - run:
+          name: Commit and push pyproject.toml
+          command: |
+            git add pyproject.toml
+            git commit -m "Bumped ${SEMVER_INCREMENT} from ${OLD_VERSION} to ${NEW_VERSION} [skip ci]"
+            git push
 
 
 workflows:

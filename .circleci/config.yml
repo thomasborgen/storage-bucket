@@ -40,14 +40,18 @@ jobs:
           name: Retrieve semver or stop job
 
       - run:
-          command: export OLD_VERSION=`poetry version`
+          command: |
+            OLD_VERSION=`poetry version`
+            echo "export OLD_VERSION=\"$OLD_VERSION\""  >> $BASH_ENV
           name: store old version
 
       - poetry/version:
           args: ${SEMVER_INCREMENT}
 
       - run:
-          command: export NEW_VERSION=`poetry version`
+          command: |
+            NEW_VERSION=`poetry version`
+            echo "export NEW_VERSION=\"$NEW_VERSION\""  >> $BASH_ENV
           name: store new version
 
       - run:
@@ -58,7 +62,7 @@ jobs:
           name: Commit and push pyproject.toml
           command: |
             git add pyproject.toml
-            git commit -m "Bumped ${SEMVER_INCREMENT} from ${OLD_VERSION} to ${NEW_VERSION} [skip ci]"
+            git commit -m "Bumped ${SEMVER_INCREMENT} from ${OLD_VERSION} to ${NEW_VERSION}(published) [skip ci]"
             git push --set-upstream origin ${CIRCLE_BRANCH}
 
 

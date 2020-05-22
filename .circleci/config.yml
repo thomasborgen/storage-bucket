@@ -84,6 +84,3 @@ workflows:
   publish:
     jobs:
       - publish_job
-#        filters:
-#          brances:
-#            only: master

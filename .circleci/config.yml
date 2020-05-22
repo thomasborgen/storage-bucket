@@ -25,7 +25,7 @@ jobs:
               echo "Note: To indicate intention to skip promotion, include [semver:skip] in the commit subject instead."
               exit 1
             elif [ "$SEMVER_INCREMENT" == "skip" ];then
-              echo "SEMVER in commit indicated to skip orb release"
+              echo "SEMVER in commit indicated to skip package release"
               exit 1
             fi
           name: Retrieve semver or stop job

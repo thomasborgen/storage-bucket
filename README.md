@@ -73,6 +73,15 @@ ListFiles()('bucket', 'foldername/')
 list_files('bucket', 'foldername/')
 ```
 
+### Deleting
+```python
+from storage_bucket.delete_file import DeleteFile, delete_file
+
+DeleteFile()('bucketname', 'filename')
+delete_file('bucketname', 'filename')
+```
+
+
 
 ### The use of [Returns](https://github.com/dry-python/returns) library.
   * Just lets us get rid of all exceptions.

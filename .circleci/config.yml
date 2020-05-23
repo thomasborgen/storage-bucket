@@ -55,6 +55,7 @@ jobs:
           name: store new version
 
       - poetry/build
+      - poetry/publish
 
       - run:
           name: Commit and push pyproject.toml
@@ -95,7 +96,7 @@ workflows:
             - poetry/check
           filters:
             branches:
-              ignore: master
+              only: master
       - poetry/shell:
           name: linting
           args: flake8
@@ -103,7 +104,7 @@ workflows:
             - poetry/install
           filters:
             branches:
-              ignore: master
+              only: master
       - poetry/shell:
           name: tests
           args: pytest
@@ -115,11 +116,11 @@ workflows:
             - poetry/install
           filters:
             branches:
-              ignore: master
+              only: master
       - publish_job:
           requires:
             - linting
             - tests
           filters:
             branches:
-              ignore: master
+              only: master

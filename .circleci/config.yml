@@ -20,9 +20,10 @@ jobs:
           name: "Set git config"
           command: |
             git config user.email circleci@borgenit.no
-            git config user.name "CircleCI Builder"
+            git config user.name "CircleCI"
 
       - run:
+          name: Retrieve semver or stop job
           command: |
             COMMIT_SUBJECT=`git log -1 --pretty=%s.`
             SEMVER_INCREMENT=`echo ${COMMIT_SUBJECT} | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p'`
@@ -37,22 +38,17 @@ jobs:
               echo "SEMVER in commit indicated to skip package release"
               exit 1
             fi
-          name: Retrieve semver or stop job
 
-      - run:
-          command: |
-            OLD_VERSION=`poetry version`
-            echo "export OLD_VERSION=\"$OLD_VERSION\""  >> $BASH_ENV
-          name: store old version
 
       - poetry/version:
           args: ${SEMVER_INCREMENT}
 
       - run:
+          name: store new version
           command: |
             NEW_VERSION=`poetry version`
             echo "export NEW_VERSION=\"$NEW_VERSION\""  >> $BASH_ENV
-          name: store new version
+
 
       - poetry/build
       - poetry/publish
@@ -61,7 +57,7 @@ jobs:
           name: Commit and push pyproject.toml
           command: |
             git add pyproject.toml
-            git commit -m "Bumped ${SEMVER_INCREMENT} version. From ${OLD_VERSION} to ${NEW_VERSION}(published) [skip ci]"
+            git commit -m "${SEMVER_INCREMENT} version bump to ${NEW_VERSION}(published) [skip ci]"
             git push --set-upstream origin ${CIRCLE_BRANCH}
 
 
@@ -71,11 +67,21 @@ workflows:
       - poetry/install:
           steps_before:
             - poetry/check
+
+          filters:
+            branches:
+              ignore: master
+
       - poetry/shell:
           name: run flake8 linting
           args: flake8
+
           requires:
             - poetry/install
+          filters:
+            branches:
+              ignore: master
+
       - poetry/shell:
           name: run pytest
           args: pytest
@@ -83,6 +89,7 @@ workflows:
             - run:
                 name: Create google key file
                 command: echo ${GCP_SERVICE_ACCOUNT_KEY} > key.json
+
           requires:
             - poetry/install
           filters:
@@ -94,17 +101,21 @@ workflows:
       - poetry/install:
           steps_before:
             - poetry/check
+
           filters:
             branches:
               only: master
+
       - poetry/shell:
           name: linting
           args: flake8
+
           requires:
             - poetry/install
           filters:
             branches:
               only: master
+
       - poetry/shell:
           name: tests
           args: pytest
@@ -112,11 +123,13 @@ workflows:
             - run:
                 name: Create google key file
                 command: echo ${GCP_SERVICE_ACCOUNT_KEY} > key.json
+
           requires:
             - poetry/install
           filters:
             branches:
               only: master
+
       - publish_job:
           requires:
             - linting

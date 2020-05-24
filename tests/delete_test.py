@@ -9,8 +9,8 @@ from google.api_core.exceptions import NotFound
 from returns.pipeline import is_successful
 
 from storage_bucket.create import CreateBucket
-from storage_bucket.list import ListBuckets, list_bucket_names
 from storage_bucket.delete import DeleteBucket, delete_bucket
+from storage_bucket.list import ListBuckets, list_bucket_names
 
 
 @pytest.fixture

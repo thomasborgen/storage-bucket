@@ -13,6 +13,8 @@ from typing_extensions import final
 
 from storage_bucket.constants import DEFAULT_TIMEOUT
 
+TIMEOUT_TYPE = Optional[Union[float, Tuple[float, float]]]
+
 
 @final
 @dataclass(frozen=True, slots=True)
@@ -26,7 +28,7 @@ class DeleteBucket(object):
         self,
         storage_bucket_name: str,
         force: bool = False,
-        timeout: Optional[Union[float, Tuple[float, float]]] = DEFAULT_TIMEOUT,
+        timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
     ) -> ResultE[None]:
         """List the storage bucket files."""
         client = self._initialize_client().unwrap()  # type: ignore
@@ -46,9 +48,10 @@ class DeleteBucket(object):
         self,
         bucket: Bucket,
         force: bool,
-        timeout: Optional[Union[float, Tuple[float, float]]],
+        timeout: TIMEOUT_TYPE,
     ) -> None:
-        bucket.delete(force=force, timeout=timeout)  # This raises various exceptions.
+        # This raises various exceptions.
+        bucket.delete(force=force, timeout=timeout)
 
     @safe
     def _initialize_client(self) -> Client:
@@ -58,9 +61,9 @@ class DeleteBucket(object):
 def delete_bucket(
     storage_bucket_name: str,
     force: bool = False,
-    timeout: Optional[Union[float, Tuple[float, float]]] = DEFAULT_TIMEOUT,
+    timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
 ) -> None:
-    """Delete bucket but return True instead of Success.
+    """Delete bucket. Returns None on Success.
 
     Raise exception when Modal is in failure state.
     """

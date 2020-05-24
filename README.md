@@ -81,6 +81,17 @@ DeleteFile()('bucketname', 'filename')
 delete_file('bucketname', 'filename')
 ```
 
+### List Buckets
+```python
+from storage_bucket.list import ListBuckets, list_buckets, list_bucket_names
+
+buckets = ListBuckets()()
+bucket_names = list_bucket_names(buckets.unwrap())
+
+buckets2 = list_buckets()
+bucket_names2 = list_bucket_names(buckets2)
+```
+
 
 
 ### The use of [Returns](https://github.com/dry-python/returns) library.

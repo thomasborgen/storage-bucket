@@ -9,11 +9,7 @@ from google.api_core.page_iterator import HTTPIterator
 from google.cloud.storage.bucket import Bucket
 from google.cloud.storage.client import Client
 
-from storage_bucket.list_buckets import (
-    ListBuckets,
-    list_bucket_names,
-    list_buckets,
-)
+from storage_bucket.list import ListBuckets, list_bucket_names, list_buckets
 
 STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'not_set')
 

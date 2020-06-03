@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Code to safely list, download and upload storage bucket files."""
-
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
 from returns.functions import raise_exception

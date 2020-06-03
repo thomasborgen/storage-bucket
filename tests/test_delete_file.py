@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Test Storage bucket classes."""
 import os
 import uuid
 from typing import Final
@@ -37,6 +34,15 @@ def test_delete_file(deletable_filename):
     assert is_successful(delete_result)
 
 
+def test_delete_file_helper(deletable_filename):
+    """Test deleting a file returns Success."""
+    delete_result = delete_file(  # type: ignore
+        storage_bucket_name=STORAGE_BUCKET_NAME,
+        filename=deletable_filename,
+    )
+    assert delete_result is None
+
+
 def test_delete_non_existing_file_fails():
     """Test deleting a file."""
     delete_result = DeleteFile()(
@@ -55,15 +61,6 @@ def test_delete_non_existing_bucket_fails():
     )
     assert not is_successful(delete_result)
     assert isinstance(delete_result.failure(), NotFound)
-
-
-def test_delete_file_helper(deletable_filename):
-    """Test deleting a file returns Success."""
-    delete_result = delete_file(  # type: ignore
-        storage_bucket_name=STORAGE_BUCKET_NAME,
-        filename=deletable_filename,
-    )
-    assert delete_result is None
 
 
 def test_delete_file_helper_raises():

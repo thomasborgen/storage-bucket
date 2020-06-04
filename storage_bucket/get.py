@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Code to safely get storage bucket."""
-
 from typing import Optional, Tuple, Union
 
 from attr import dataclass

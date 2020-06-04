@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Code to safely list storage bucket files."""
-
 from typing import Optional, Set
 
 from attr import dataclass

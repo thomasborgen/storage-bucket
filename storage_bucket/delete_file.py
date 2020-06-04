@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Code to safely download storage bucket files."""
 from functools import partial
 from typing import Optional, Tuple, Union
 

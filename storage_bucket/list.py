@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Code to safely list storage buckets."""
 from typing import Iterator, Optional, Set, Union
 
 from attr import dataclass

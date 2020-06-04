@@ -10,24 +10,17 @@ from storage_bucket.upload_file import UploadFile, upload_file
 STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'not_set')
 
 
-def test_upload_txt_file():
+@pytest.mark.parametrize(('data_bytes', 'filename', 'content_type'), [
+    (b'test', 'test.txt', 'plain/text'),
+    (b'<xml>test</xml>', 'test.xml', 'application/xml'),
+])
+def test_upload_xml_file(data_bytes, filename, content_type):
     """Test upload ok."""
     upload_result = UploadFile()(
-        b'test',
+        data_bytes,
         storage_bucket_name=STORAGE_BUCKET_NAME,
-        filename='txt_files/test.txt',
-        content_type='plain/text',
-    )
-    assert is_successful(upload_result)
-
-
-def test_upload_xml_file():
-    """Test upload ok."""
-    upload_result = UploadFile()(
-        b'<xml>test</xml>',
-        storage_bucket_name=STORAGE_BUCKET_NAME,
-        filename='xml_files/test.xml',
-        content_type='application/xml',
+        filename=filename,
+        content_type=content_type,
     )
     assert is_successful(upload_result)
 
@@ -42,52 +35,26 @@ def test_upload_txt_file_no_container():
     ) is None
 
 
-def test_upload_failure_bucket_does_not_exist():
+@pytest.mark.parametrize(('raw_data', 'filename', 'bucket', 'expected'), [
+    # bucket does not exist
+    (b'test', 'test.txt', 'bucket-does-not-exist-123', NotFound),
+    # bad data type
+    (123, 'test.xml', STORAGE_BUCKET_NAME, TypeError),
+    # bad filename
+    (b'test', None, STORAGE_BUCKET_NAME, ValueError),
+    # bad request on empty filename
+    (b'test', '', STORAGE_BUCKET_NAME, BadRequest),
+])
+def test_upload_failure(raw_data, filename, bucket, expected):
     """Test upload failure."""
     upload_result = UploadFile()(
-        b'test',
-        storage_bucket_name='bucket-does-not-exist-in-project',
-        filename='txt_files/test.txt',
+        raw_data,
+        storage_bucket_name=bucket,
+        filename=filename,
         content_type='plain/text',
     )
     assert not is_successful(upload_result)
-    assert isinstance(upload_result.failure(), NotFound)
-
-
-def test_upload_failure_bad_data():
-    """Test upload failure."""
-    upload_result = UploadFile()(
-        123,  # type: ignore # this is on purpose
-        storage_bucket_name=STORAGE_BUCKET_NAME,
-        filename='txt_files/test.txt',
-        content_type='plain/text',
-    )
-    assert not is_successful(upload_result)
-    assert isinstance(upload_result.failure(), TypeError)
-
-
-def test_upload_failure_no_filename():
-    """Test upload failure."""
-    upload_result = UploadFile()(
-        b'test',
-        storage_bucket_name=STORAGE_BUCKET_NAME,
-        filename=None,  # type: ignore
-        content_type='plain/text',
-    )
-    assert not is_successful(upload_result)
-    assert isinstance(upload_result.failure(), ValueError)
-
-
-def test_upload_failure_empty_filename():
-    """Test upload failure."""
-    upload_result = UploadFile()(
-        b'test',
-        storage_bucket_name=STORAGE_BUCKET_NAME,
-        filename='',
-        content_type='plain/text',
-    )
-    assert not is_successful(upload_result)
-    assert isinstance(upload_result.failure(), BadRequest)
+    assert isinstance(upload_result.failure(), expected)
 
 
 def test_upload_no_container():

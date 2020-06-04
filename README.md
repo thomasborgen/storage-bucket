@@ -129,3 +129,7 @@ bucket_names2 = list_bucket_names(buckets2)
   * Lets us chain stuff so everything looks good.
   * Lets you use `DownloadFile()(args...).map(dostuff).alt(dostuffonfailure)`
   * Don't like it? use the matching normal function provided for your convenience.
+
+## Contribution
+
+Like the library and want to help us, check: [CONTRIBUTING.md](https://github.com/thomasborgen/storage-bucket/CONTRIBUTING.md)

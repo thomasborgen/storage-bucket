@@ -45,10 +45,11 @@ def bucket_and_deletable_file(existing_bucket):
 
 
 @pytest.fixture(scope='module')
-def bucket_with_listable_files(existing_bucket):
+def bucket_with_files(existing_bucket):
     """Create files in our test bucket for listing."""
     paths = {'path1/', 'path2/'}
-    files = {str(uuid.uuid1()) for _ in range(10)}
+    files = {uuid.uuid1().hex for _ in range(10)}
+    files.add('test.txt')  # for exact matches
     filenames = {p + f for p in paths for f in files}  # noqa: WPS111
 
     for filename_create in filenames:

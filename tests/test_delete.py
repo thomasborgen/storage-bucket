@@ -7,27 +7,27 @@ from returns.pipeline import is_successful
 from storage_bucket.delete import DeleteBucket, delete_bucket
 
 
-def test_delete_bucket_success(deletable_bucket):
-    """Delete bucket, get Success Modal."""
+def test_delete_bucket_modal(deletable_bucket):
+    """Delete bucket returns Success."""
     assert is_successful(DeleteBucket()(storage_bucket_name=deletable_bucket))
 
 
-def test_delete_bucket_unsafe(deletable_bucket):
-    """Delete bucket unsafely."""
+def test_delete_bucket_function(deletable_bucket):
+    """Delete bucket returns None."""
     assert delete_bucket(  # type: ignore
         storage_bucket_name=deletable_bucket,
     ) is None
 
 
-def test_delete_bucket_failure():
-    """Does not exist."""
+def test_delete_bucket_modal_failure():
+    """Does not exist returns Failure(NotFound)."""
     assert isinstance(
-        DeleteBucket()(storage_bucket_name=str(uuid.uuid1())).failure(),
+        DeleteBucket()(storage_bucket_name=uuid.uuid1().hex).failure(),
         NotFound,
     )
 
 
-def test_delete_bucket_unsafe_raises():
-    """Does not exist."""
+def test_delete_bucket_function_raises():
+    """Does not exist raises NotFound exception."""
     with pytest.raises(NotFound):
-        delete_bucket(storage_bucket_name=str(uuid.uuid1()))
+        delete_bucket(storage_bucket_name=uuid.uuid1().hex)

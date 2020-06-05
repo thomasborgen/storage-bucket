@@ -7,25 +7,19 @@ from returns.pipeline import is_successful
 from storage_bucket.upload_file import UploadFile, upload_file
 
 
-@pytest.mark.parametrize(('data_bytes', 'filename', 'content_type'), [
-    (b'a', 'test.txt', 'plain/text'),
-    (b'<xml>a</xml>', 'test.xml', 'application/xml'),
-    (b'a', 'test.txt', None),
-])
-def test_upload(existing_bucket, data_bytes, filename, content_type):
-    """Test upload ok."""
+def test_upload_file_modal(existing_bucket):
+    """Test upload returns Success."""
     assert is_successful(
         UploadFile()(
-            data_bytes,
+            b'a',
             storage_bucket_name=existing_bucket,
-            filename=filename,
-            content_type=content_type,
+            filename='test.txt',
         ),
     )
 
 
-def test_upload_unsafe(existing_bucket):
-    """Uploading unsafely returns None on success."""
+def test_upload_file_function(existing_bucket):
+    """Uploading returns None on success."""
     assert upload_file(  # type: ignore
         b'd',
         storage_bucket_name=existing_bucket,
@@ -35,7 +29,7 @@ def test_upload_unsafe(existing_bucket):
 
 @pytest.mark.parametrize(('raw_data', 'filename', 'bucket', 'expected'), [
     # bucket does not exist
-    (b'test', 'test.txt', str(uuid.uuid1()), NotFound),
+    (b'test', 'test.txt', uuid.uuid1().hex, NotFound),
     # bad data type
     (123, 'test.xml', None, TypeError),
     # bad filename
@@ -43,7 +37,9 @@ def test_upload_unsafe(existing_bucket):
     # bad request on empty filename
     (b'test', '', None, BadRequest),
 ])
-def test_upload_failure(existing_bucket, raw_data, filename, bucket, expected):
+def test_upload_file_modal_failure(
+    existing_bucket, raw_data, filename, bucket, expected,
+):
     """Test upload failure."""
     assert isinstance(
         UploadFile()(
@@ -55,8 +51,8 @@ def test_upload_failure(existing_bucket, raw_data, filename, bucket, expected):
     )
 
 
-def test_upload_unsafely_raises():
-    """Test upload failure raises exception."""
+def test_upload_file_function_raises():
+    """Test upload failure raises NotFound exception."""
     with pytest.raises(NotFound):
         upload_file(
             b'test',

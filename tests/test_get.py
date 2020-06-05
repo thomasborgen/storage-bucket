@@ -11,30 +11,25 @@ from returns.pipeline import is_successful
 from storage_bucket.get import GetBucket, get_bucket
 
 
-def test_get_bucket_success(existing_bucket):
-    """Create bucket, get Success Modal."""
-    assert is_successful(
-        GetBucket()(storage_bucket_name=existing_bucket),
-    )
+def test_get_bucket_modal(existing_bucket):
+    """Get bucket returns Success(Bucket)."""
+    assert is_successful(GetBucket()(storage_bucket_name=existing_bucket))
 
 
-def test_get_bucket(existing_bucket):
-    """Create container, get bucket."""
-    bucket_result = get_bucket(
-        storage_bucket_name=existing_bucket,
-    )
-    assert isinstance(bucket_result, Bucket)
+def test_get_bucket_function(existing_bucket):
+    """Get bucket returns Bucket."""
+    assert isinstance(get_bucket(storage_bucket_name=existing_bucket), Bucket)
 
 
-def test_get_bucket_failure():
-    """Getting non-existant bucket should give NotFound failure."""
+def test_get_bucket_modal_failure():
+    """Getting non-existant bucket should return Failure(NotFound)."""
     assert isinstance(
-        GetBucket()(storage_bucket_name=str(uuid.uuid1())).failure(),
+        GetBucket()(storage_bucket_name=uuid.uuid1().hex).failure(),
         NotFound,
     )
 
 
-def test_get_bucket_raises():
-    """Getting non-existant bucket should raise NotFound."""
+def test_get_bucket_function_raises():
+    """Getting non-existant bucket should raise NotFound exception."""
     with pytest.raises(NotFound):
-        get_bucket(storage_bucket_name=str(uuid.uuid1()))
+        get_bucket(storage_bucket_name=uuid.uuid1().hex)

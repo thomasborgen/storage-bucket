@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-"""Test Get Storage bucket class."""
 import uuid
 
 import pytest

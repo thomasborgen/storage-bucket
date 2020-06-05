@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """Test Get Storage bucket class."""
-import os
-from typing import Final
+import uuid
 
 import pytest
 from google.api_core.exceptions import NotFound
@@ -11,38 +10,31 @@ from returns.pipeline import is_successful
 
 from storage_bucket.get import GetBucket, get_bucket
 
-STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'not_set')
 
-
-def test_get_bucket_success():
+def test_get_bucket_success(existing_bucket):
     """Create bucket, get Success Modal."""
-    bucket_result = GetBucket()(
-        storage_bucket_name=STORAGE_BUCKET_NAME,
+    assert is_successful(
+        GetBucket()(storage_bucket_name=existing_bucket),
     )
-    assert is_successful(bucket_result)
-    assert isinstance(bucket_result.unwrap(), Bucket)
 
 
-def test_create_get_failure_conflict():
-    """Conflicting name, get Failure modal with Conflict exception."""
-    bucket_result = GetBucket()(
-        storage_bucket_name='test-bucket-with-my-name',
-    )
-    assert not is_successful(bucket_result)
-    assert isinstance(bucket_result.failure(), NotFound)
-
-
-def test_get_bucket():
+def test_get_bucket(existing_bucket):
     """Create container, get bucket."""
     bucket_result = get_bucket(
-        storage_bucket_name=STORAGE_BUCKET_NAME,
+        storage_bucket_name=existing_bucket,
     )
     assert isinstance(bucket_result, Bucket)
 
 
-def test_get_bucket_exception_conflict():
-    """Test that we get exception raised when we try to create existing."""
+def test_get_bucket_failure():
+    """Getting non-existant bucket should give NotFound failure."""
+    assert isinstance(
+        GetBucket()(storage_bucket_name=str(uuid.uuid1())).failure(),
+        NotFound,
+    )
+
+
+def test_get_bucket_raises():
+    """Getting non-existant bucket should raise NotFound."""
     with pytest.raises(NotFound):
-        get_bucket(
-            storage_bucket_name='test-bucket-with-my-name',
-        )
+        get_bucket(storage_bucket_name=str(uuid.uuid1()))

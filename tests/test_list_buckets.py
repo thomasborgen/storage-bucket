@@ -6,7 +6,7 @@ from google.cloud.storage.client import Client
 from storage_bucket.list import ListBuckets, list_bucket_names, list_buckets
 
 
-def test_list_buckets_success_found(existing_bucket):
+def test_list_buckets_modal_found(existing_bucket):
     """Test that bucket is listed."""
     buckets = ListBuckets()()
     bucket_names = list_bucket_names(buckets.unwrap())
@@ -14,14 +14,14 @@ def test_list_buckets_success_found(existing_bucket):
     assert isinstance(buckets.unwrap(), HTTPIterator)
 
 
-def test_list_buckets_success_not_found():
+def test_list_buckets_modal_not_found():
     """Test that bucket is not listed."""
     buckets = ListBuckets()()
     bucket_names = list_bucket_names(buckets.unwrap())
     assert 'not_in_use' not in bucket_names
 
 
-def test_list_buckets_found(existing_bucket):
+def test_list_buckets_function_found(existing_bucket):
     """Test that bucket is listed."""
     buckets = list_buckets()
     bucket_names = list_bucket_names(buckets)
@@ -29,7 +29,7 @@ def test_list_buckets_found(existing_bucket):
     assert isinstance(buckets, HTTPIterator)
 
 
-def test_list_buckets_not_found(existing_bucket):
+def test_list_buckets_function_not_found(existing_bucket):
     """Test that bucket is not listed."""
     buckets = list_buckets()
     bucket_names = list_bucket_names(buckets)

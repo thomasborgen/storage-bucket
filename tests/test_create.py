@@ -1,8 +1,7 @@
-from typing import Final
-
 import pytest
 from google.api_core.exceptions import Conflict
 from google.cloud.storage import Bucket
+from typing_extensions import Final
 
 from storage_bucket.create import CreateBucket, create_bucket
 

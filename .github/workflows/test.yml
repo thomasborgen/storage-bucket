@@ -16,9 +16,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - shell: bash
-      run: |
-        echo ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }} > key.json
+    - name: Create gcloud key file
+      run: echo ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }} > key.json
 
     - name: Install poetry
       run: |

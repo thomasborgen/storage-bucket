@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-
-"""Test Get Storage bucket class."""
-import os
-from typing import Final
+import uuid
 
 import pytest
 from google.api_core.exceptions import NotFound
@@ -11,38 +7,26 @@ from returns.pipeline import is_successful
 
 from storage_bucket.get import GetBucket, get_bucket
 
-STORAGE_BUCKET_NAME: Final[str] = os.getenv('STORAGE_BUCKET_NAME', 'not_set')
+
+def test_get_bucket_modal(existing_bucket):
+    """Get bucket returns Success(Bucket)."""
+    assert is_successful(GetBucket()(storage_bucket_name=existing_bucket))
 
 
-def test_get_bucket_success():
-    """Create bucket, get Success Modal."""
-    bucket_result = GetBucket()(
-        storage_bucket_name=STORAGE_BUCKET_NAME,
+def test_get_bucket_function(existing_bucket):
+    """Get bucket returns Bucket."""
+    assert isinstance(get_bucket(storage_bucket_name=existing_bucket), Bucket)
+
+
+def test_get_bucket_modal_failure():
+    """Getting non-existant bucket should return Failure(NotFound)."""
+    assert isinstance(
+        GetBucket()(storage_bucket_name=uuid.uuid1().hex).failure(),
+        NotFound,
     )
-    assert is_successful(bucket_result)
-    assert isinstance(bucket_result.unwrap(), Bucket)
 
 
-def test_create_get_failure_conflict():
-    """Conflicting name, get Failure modal with Conflict exception."""
-    bucket_result = GetBucket()(
-        storage_bucket_name='test-bucket-with-my-name',
-    )
-    assert not is_successful(bucket_result)
-    assert isinstance(bucket_result.failure(), NotFound)
-
-
-def test_get_bucket():
-    """Create container, get bucket."""
-    bucket_result = get_bucket(
-        storage_bucket_name=STORAGE_BUCKET_NAME,
-    )
-    assert isinstance(bucket_result, Bucket)
-
-
-def test_get_bucket_exception_conflict():
-    """Test that we get exception raised when we try to create existing."""
+def test_get_bucket_function_raises():
+    """Getting non-existant bucket should raise NotFound exception."""
     with pytest.raises(NotFound):
-        get_bucket(
-            storage_bucket_name='test-bucket-with-my-name',
-        )
+        get_bucket(storage_bucket_name=uuid.uuid1().hex)

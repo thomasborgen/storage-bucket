@@ -1,46 +1,45 @@
-import uuid
+from typing import Final
 
 import pytest
 from google.api_core.exceptions import Conflict
 from google.cloud.storage import Bucket
-from returns.pipeline import is_successful
 
 from storage_bucket.create import CreateBucket, create_bucket
 
+LOCATION: Final[str] = 'EU'
 
-def test_create_bucket_success():
-    """Create bucket, get Success Modal."""
+
+def test_create_bucket_modal(creatable_bucket):
+    """Create bucket returns Success(Bucket)."""
     bucket_result = CreateBucket()(
-        storage_bucket_name='create-test-{id}'.format(id=uuid.uuid1()),
-        location='EU',
+        storage_bucket_name=creatable_bucket,
+        location=LOCATION,
     )
-    assert is_successful(bucket_result)
     assert isinstance(bucket_result.unwrap(), Bucket)
 
 
-def test_create_bucket():
-    """Create container, get bucket."""
+def test_create_bucket_function(creatable_bucket):
+    """Create bucket returns Bucket."""
     bucket_result = create_bucket(
-        storage_bucket_name='create-test-{id}'.format(id=uuid.uuid1()),
-        location='EU',
+        storage_bucket_name=creatable_bucket,
+        location=LOCATION,
     )
     assert isinstance(bucket_result, Bucket)
 
 
-def test_create_bucket_failure_conflict():
-    """Conflicting name, get Failure modal with Conflict exception."""
+def test_create_bucket_modal_failure(existing_bucket):
+    """Conflicting name returns Failure(Conflict)."""
     bucket_result = CreateBucket()(
-        storage_bucket_name='python-storage-bucket-test',
-        location='EU',
+        storage_bucket_name=existing_bucket,
+        location=LOCATION,
     )
-    assert not is_successful(bucket_result)
     assert isinstance(bucket_result.failure(), Conflict)
 
 
-def test_create_bucket_exception_conflict():
-    """Test that we get exception raised when we try to create existing."""
+def test_create_bucket_function_exception(existing_bucket):
+    """Conflicting name raises Conflict exception."""
     with pytest.raises(Conflict):
         create_bucket(
-            storage_bucket_name='python-storage-bucket-test',
-            location='EU',
+            storage_bucket_name=existing_bucket,
+            location=LOCATION,
         )

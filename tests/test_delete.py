@@ -4,52 +4,30 @@ import pytest
 from google.api_core.exceptions import NotFound
 from returns.pipeline import is_successful
 
-from storage_bucket.create import CreateBucket
 from storage_bucket.delete import DeleteBucket, delete_bucket
 
 
-@pytest.fixture
-def deletable_bucket() -> str:
-    """Create a deletable file and return its name."""
-    bucket_name = 'delete-test-{uuid}'.format(uuid=uuid.uuid1())
-    return CreateBucket()(
-        storage_bucket_name=bucket_name,
-        location='EU',
-    ).map(
-        lambda _: bucket_name,
-    ).unwrap()
+def test_delete_bucket_modal(deletable_bucket):
+    """Delete bucket returns Success."""
+    assert is_successful(DeleteBucket()(storage_bucket_name=deletable_bucket))
 
 
-def test_delete_bucket_success(deletable_bucket):
-    """Delete bucket, get Success Modal."""
-    delete_result = DeleteBucket()(
-        storage_bucket_name=deletable_bucket,
-    )
-    assert is_successful(delete_result)
-    assert delete_result.unwrap() is None
-
-
-def test_delete_bucket_non_modal(deletable_bucket):
-    """Test that we get exception raised when we try to create existing."""
+def test_delete_bucket_function(deletable_bucket):
+    """Delete bucket returns None."""
     assert delete_bucket(  # type: ignore
         storage_bucket_name=deletable_bucket,
     ) is None
 
 
-def test_delete_bucket_does_not_exist_failure():
-    """Conflicting name, get Failure modal with Conflict exception."""
-    bucket_result = DeleteBucket()(
-        storage_bucket_name='does-not-exist-{uuid}'.format(uuid=uuid.uuid1()),
+def test_delete_bucket_modal_failure():
+    """Does not exist returns Failure(NotFound)."""
+    assert isinstance(
+        DeleteBucket()(storage_bucket_name=uuid.uuid1().hex).failure(),
+        NotFound,
     )
-    assert not is_successful(bucket_result)
-    assert isinstance(bucket_result.failure(), NotFound)
 
 
-def test_delete_bucket_non_modal_not_exist_raises():
-    """Test that we get exception raised when we try to create existing."""
+def test_delete_bucket_function_raises():
+    """Does not exist raises NotFound exception."""
     with pytest.raises(NotFound):
-        delete_bucket(
-            storage_bucket_name='does-not-exist-{uuid}'.format(
-                uuid=uuid.uuid1(),
-            ),
-        )
+        delete_bucket(storage_bucket_name=uuid.uuid1().hex)

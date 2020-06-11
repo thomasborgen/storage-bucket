@@ -16,6 +16,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    - name: Create google key file
+      run: echo ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }} > key.json
+        
     - name: Install poetry
       run: |
         curl -sSL \

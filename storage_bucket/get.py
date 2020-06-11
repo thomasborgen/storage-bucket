@@ -1,5 +1,3 @@
-from typing import Optional, Tuple, Union
-
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
 from returns.functions import raise_exception
@@ -31,12 +29,12 @@ class GetBucket(object):
             timeout,
         )
 
-    @safe  # noqa: WPS234
+    @safe
     def _get_bucket(
         self,
         client: Client,
         bucket_name: str,
-        timeout: Optional[Union[float, Tuple[float, float]]],
+        timeout: TIMEOUT_TYPE,
     ) -> Bucket:
         return client.get_bucket(bucket_name)
 

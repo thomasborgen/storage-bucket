@@ -38,7 +38,7 @@ class DeleteFile(object):
     _get_bucket = GetBucket()
 
     @pipeline(ResultE)
-    def __call__(  # noqa: WPS234  fix annotation with a timeout type
+    def __call__(
         self,
         storage_bucket_name: str,
         filename: str,

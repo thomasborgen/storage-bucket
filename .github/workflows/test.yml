@@ -37,3 +37,8 @@ jobs:
         poetry run pip check
         poetry run flake8 .
         poetry run pytest .
+        poetry run safety check --full-report
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml

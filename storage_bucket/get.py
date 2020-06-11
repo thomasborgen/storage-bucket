@@ -7,6 +7,8 @@ from returns.pipeline import pipeline
 from returns.result import ResultE, safe
 from typing_extensions import final
 
+from storage_bucket.constants import DEFAULT_TIMEOUT, TIMEOUT_TYPE
+
 
 @final
 @dataclass(frozen=True, slots=True)
@@ -16,10 +18,10 @@ class GetBucket(object):
     _client = Client
 
     @pipeline(ResultE)
-    def __call__(  # noqa: WPS234
+    def __call__(
         self,
         storage_bucket_name: str,
-        timeout: Optional[Union[float, Tuple[float, float]]] = 60,
+        timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
     ) -> ResultE[Bucket]:
         """Get the storage bucket."""
         client = self._initialize_client().unwrap()  # type: ignore
@@ -29,8 +31,8 @@ class GetBucket(object):
             timeout,
         )
 
-    @safe
-    def _get_bucket(  # noqa: WPS234
+    @safe  # noqa: WPS234
+    def _get_bucket(
         self,
         client: Client,
         bucket_name: str,

@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Optional, Tuple, Union
+from typing import Optional
 
 from attr import dataclass
 from google.cloud.storage import Bucket
@@ -8,6 +8,7 @@ from returns.pipeline import pipeline
 from returns.result import ResultE, safe
 from typing_extensions import final
 
+from storage_bucket.constants import TIMEOUT_TYPE
 from storage_bucket.get import GetBucket
 
 
@@ -42,7 +43,7 @@ class DeleteFile(object):
         storage_bucket_name: str,
         filename: str,
         generation: Optional[int] = None,
-        timeout: Optional[Union[int, Tuple[int, int]]] = None,
+        timeout: Optional[TIMEOUT_TYPE] = None,
     ) -> ResultE[None]:
         """Delete storage bucket file."""
         return self._get_bucket(

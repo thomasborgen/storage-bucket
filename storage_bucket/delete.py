@@ -1,5 +1,3 @@
-from typing import Optional, Tuple, Union
-
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
 from returns.functions import raise_exception
@@ -7,9 +5,7 @@ from returns.pipeline import pipeline
 from returns.result import ResultE, safe
 from typing_extensions import final
 
-from storage_bucket.constants import DEFAULT_TIMEOUT
-
-TIMEOUT_TYPE = Optional[Union[float, Tuple[float, float]]]
+from storage_bucket.constants import DEFAULT_TIMEOUT, TIMEOUT_TYPE
 
 
 @final

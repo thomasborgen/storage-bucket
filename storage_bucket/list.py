@@ -21,8 +21,8 @@ class ListBuckets(object):
 
     _client = Client
 
-    @safe
-    def __call__(  # noqa: WPS211
+    @safe  # noqa: WPS211
+    def __call__(
         self,
         max_results: Optional[int] = None,
         page_token: Optional[str] = None,

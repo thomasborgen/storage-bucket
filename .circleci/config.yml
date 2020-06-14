@@ -62,39 +62,6 @@ jobs:
 
 
 workflows:
-  build_lint_test:
-    jobs:
-      - poetry/install:
-          steps_before:
-            - poetry/check
-
-          filters:
-            branches:
-              ignore: master
-
-      - poetry/shell:
-          name: run flake8 linting
-          args: flake8
-
-          requires:
-            - poetry/install
-          filters:
-            branches:
-              ignore: master
-
-      - poetry/shell:
-          name: run pytest
-          args: pytest
-          steps_before:
-            - run:
-                name: Create google key file
-                command: echo ${GCP_SERVICE_ACCOUNT_KEY} > key.json
-
-          requires:
-            - poetry/install
-          filters:
-            branches:
-              ignore: master
 
   publish:
     jobs:

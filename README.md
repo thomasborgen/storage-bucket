@@ -1,4 +1,7 @@
-![test](https://github.com/thomasborgen/storage-bucket/workflows/test/badge.svg) [![codecov](https://codecov.io/gh/thomasborgen/storage-bucket/branch/master/graph/badge.svg)](https://codecov.io/gh/thomasborgen/storage-bucket) [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
+![test](https://github.com/thomasborgen/storage-bucket/workflows/test/badge.svg)
+[![codecov](https://codecov.io/gh/thomasborgen/storage-bucket/branch/master/graph/badge.svg)](https://codecov.io/gh/thomasborgen/storage-bucket)
+[![Python Version](https://img.shields.io/pypi/pyversions/storage-bucket.svg)](https://pypi.org/project/storage-bucket/)
+[![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
 # Google Cloud Platform Storage Bucket
 

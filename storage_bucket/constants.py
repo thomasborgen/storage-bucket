@@ -1,3 +1,6 @@
-from typing import Optional, Tuple, Union
+from typing import Tuple, Union
 
-DEFAULT_TIMEOUT: Optional[Union[float, Tuple[float, float]]] = 60  # noqa: WPS234, E501
+from typing_extensions import Final
+
+TIMEOUT_TYPE = Union[int, Tuple[int, int]]
+DEFAULT_TIMEOUT: Final[int] = 60

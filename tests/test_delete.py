@@ -2,14 +2,8 @@ import uuid
 
 import pytest
 from google.api_core.exceptions import NotFound
-from returns.pipeline import is_successful
 
-from storage_bucket.delete import DeleteBucket, delete_bucket
-
-
-def test_delete_bucket_modal(deletable_bucket):
-    """Delete bucket returns Success."""
-    assert is_successful(DeleteBucket()(storage_bucket_name=deletable_bucket))
+from storage_bucket.delete import delete_bucket
 
 
 def test_delete_bucket_function(deletable_bucket):
@@ -17,14 +11,6 @@ def test_delete_bucket_function(deletable_bucket):
     assert delete_bucket(  # type: ignore
         storage_bucket_name=deletable_bucket,
     ) is None
-
-
-def test_delete_bucket_modal_failure():
-    """Does not exist returns Failure(NotFound)."""
-    assert isinstance(
-        DeleteBucket()(storage_bucket_name=uuid.uuid1().hex).failure(),
-        NotFound,
-    )
 
 
 def test_delete_bucket_function_raises():

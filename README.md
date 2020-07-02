@@ -135,4 +135,4 @@ bucket_names2 = list_bucket_names(buckets2)
 
 ## Contribution
 
-Like the library and want to help us, check: [CONTRIBUTING.md](https://github.com/thomasborgen/storage-bucket/CONTRIBUTING.md)
+Like the library and want to help us, check: [CONTRIBUTING.md](https://github.com/thomasborgen/storage-bucket/blob/master/CONTRIBUTING.md)

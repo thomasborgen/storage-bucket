@@ -26,8 +26,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-google-cloud-storage = "^1.28.1"
-returns = "^0.13.0"
+google-cloud-storage = "^1.29.0"
+returns = "^0.14.0"
 attrs = "^19.3.0"
 
 [tool.poetry.dev-dependencies]

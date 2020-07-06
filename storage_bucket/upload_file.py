@@ -1,7 +1,9 @@
 from attr import dataclass
 from google.cloud.storage import Blob, Bucket
+from returns.curry import partial
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
 
@@ -31,20 +33,32 @@ class UploadFile(object):
     :return: Result[None, Exception]
     """
 
-    _get_bucket = GetBucket()
+    get_bucket = GetBucket()
 
-    @pipeline(ResultE)
     def __call__(
         self,
-        file_data: bytes,
+        file_content: bytes,
         storage_bucket_name: str,
         filename: str,
-        content_type: str = 'application/octet-stream',
+        **kwargs,
     ) -> ResultE[None]:
         """Download storage bucket file."""
+        return flow(
+            storage_bucket_name,
+            self.get_bucket,
+            bind(partial(self._get_blob, filename=filename)),
+            bind(partial(
+                self._upload_data,
+                file_content=file_content,
+                **kwargs,
+            )),
+        )
+
+        """
         bucket = self._get_bucket(storage_bucket_name).unwrap()
         blob = self._get_blob(bucket, filename).unwrap()
         return self._upload_data(blob, file_data, content_type)
+        """
 
     @safe
     def _get_blob(
@@ -54,23 +68,23 @@ class UploadFile(object):
 
     @safe
     def _upload_data(
-        self, blob: Blob, file_content: bytes, content_type: str,
+        self, blob: Blob, file_content: bytes, **kwargs,
     ) -> None:
-        blob.upload_from_string(file_content, content_type)
+        blob.upload_from_string(file_content, **kwargs)
 
 
 def upload_file(
-    file_data: bytes,
+    file_content: bytes,
     storage_bucket_name: str,
     filename: str,
     content_type: str = 'application/octet-stream',
 ) -> None:
     """Upload file as per usual but raise exception on error."""
     return UploadFile()(
-        file_data,
-        storage_bucket_name,
-        filename,
-        content_type,
+        file_content=file_content,
+        storage_bucket_name=storage_bucket_name,
+        filename=filename,
+        content_type=content_type,
     ).alt(
         raise_exception,
     ).unwrap()

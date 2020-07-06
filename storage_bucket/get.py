@@ -1,11 +1,13 @@
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
+from returns.curry import partial
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
 
-from storage_bucket.constants import DEFAULT_TIMEOUT, TIMEOUT_TYPE
+from storage_bucket.client import GetClient
 
 
 @final
@@ -13,34 +15,29 @@ from storage_bucket.constants import DEFAULT_TIMEOUT, TIMEOUT_TYPE
 class GetBucket(object):
     """Get a GCP storage bucket."""
 
-    _client = Client
+    get_client = GetClient()
 
-    @pipeline(ResultE)
     def __call__(
         self,
         storage_bucket_name: str,
-        timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
+        **kwargs,
     ) -> ResultE[Bucket]:
         """Get the storage bucket."""
-        client = self._initialize_client().unwrap()  # type: ignore
-        return self._get_bucket(  # type: ignore
-            client,
-            storage_bucket_name,
-            timeout,
+        return flow(
+            self.get_client(),
+            bind(partial(
+                self._get_bucket,
+                storage_bucket_name=storage_bucket_name,
+            )),
         )
 
     @safe
     def _get_bucket(
         self,
         client: Client,
-        bucket_name: str,
-        timeout: TIMEOUT_TYPE,
+        storage_bucket_name: str,
     ) -> Bucket:
-        return client.get_bucket(bucket_name)
-
-    @safe
-    def _initialize_client(self) -> Client:
-        return self._client()
+        return client.get_bucket(storage_bucket_name)
 
 
 def get_bucket(

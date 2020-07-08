@@ -1,7 +1,7 @@
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
 from returns.curry import partial
-from returns.functions import raise_exception, tap
+from returns.functions import raise_exception
 from returns.pipeline import flow
 from returns.pointfree import bind
 from returns.result import ResultE, safe
@@ -27,7 +27,6 @@ class CreateBucket(object):
         """List the storage bucket files."""
         return flow(
             self.get_client(),
-            tap(print),
             bind(partial(
                 self._create_bucket,
                 name=storage_bucket_name,

@@ -54,12 +54,6 @@ class UploadFile(object):
             )),
         )
 
-        """
-        bucket = self._get_bucket(storage_bucket_name).unwrap()
-        blob = self._get_blob(bucket, filename).unwrap()
-        return self._upload_data(blob, file_data, content_type)
-        """
-
     @safe
     def _get_blob(
         self, bucket: Bucket, filename: str,

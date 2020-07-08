@@ -2,10 +2,14 @@ from typing import Optional, Set
 
 from attr import dataclass
 from google.cloud.storage import Blob, Client
+from returns.curry import partial
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
+
+from storage_bucket.client import GetClient
 
 
 @final
@@ -13,20 +17,21 @@ from typing_extensions import final
 class ListFiles(object):
     """List all blobs in given storage_bucket."""
 
-    _client = Client
+    get_client = GetClient()
 
-    @pipeline(ResultE)
     def __call__(
         self,
         storage_bucket_name: str,
         prefix: Optional[str] = None,
     ) -> ResultE[Set[Blob]]:
         """List the storage bucket files."""
-        client = self._initialize_client().unwrap()  # type: ignore
-        return self._list_blobs(
-            client,
-            storage_bucket_name,
-            prefix,
+        return flow(
+            self.get_client(),
+            bind(partial(
+                self._list_blobs,
+                storage_bucket_name=storage_bucket_name,
+                prefix=prefix,
+            )),
         )
 
     @safe
@@ -37,10 +42,6 @@ class ListFiles(object):
         prefix: Optional[str] = None,
     ) -> Set[Blob]:
         return set(client.list_blobs(storage_bucket_name, prefix=prefix))
-
-    @safe
-    def _initialize_client(self) -> Client:
-        return self._client()
 
 
 def list_files(

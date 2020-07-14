@@ -2,7 +2,7 @@
 name = "storage-bucket"
 version = "1.0.0"
 description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
-authors = ["Thomas Borgen <thomas@borgenit.no>"]
+authors = ["Thomas Borgen <thomas@borgenit.no>", "Dmytro Chasovskyi <dmitriy.chasovskoy@gmail.com>"]
 
 license = "MIT"
 readme = "README.md"
@@ -40,6 +40,7 @@ safety = "^1.9.0"
 pytest = "^5.4"
 pytest-cov = "^2.8.1"
 pytest-env = "^0.6.2"
+mkdocs-material = "^5.4.0"
 
 [build-system]
 requires = ["poetry>=0.12"]

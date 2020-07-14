@@ -1,5 +1,4 @@
 from functools import partial
-from typing import Optional
 
 from attr import dataclass
 from google.cloud.storage import Bucket

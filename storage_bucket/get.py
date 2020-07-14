@@ -28,6 +28,7 @@ class GetBucket(object):
             bind(partial(
                 self._get_bucket,
                 storage_bucket_name=storage_bucket_name,
+                **kwargs,
             )),
         )
 
@@ -36,12 +37,14 @@ class GetBucket(object):
         self,
         client: Client,
         storage_bucket_name: str,
+        **kwargs,
     ) -> Bucket:
-        return client.get_bucket(storage_bucket_name)
+        return client.get_bucket(storage_bucket_name, **kwargs)
 
 
 def get_bucket(
     storage_bucket_name: str,
+    **kwargs,
 ) -> Bucket:
     """Get bucket but return bucket instead of Modal.
 
@@ -49,6 +52,7 @@ def get_bucket(
     """
     return GetBucket()(
         storage_bucket_name=storage_bucket_name,
+        **kwargs,
     ).alt(
         raise_exception,
     ).unwrap()

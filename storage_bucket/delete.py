@@ -7,7 +7,6 @@ from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
 
-from storage_bucket.constants import DEFAULT_TIMEOUT, TIMEOUT_TYPE
 from storage_bucket.get import GetBucket
 
 
@@ -40,7 +39,7 @@ class DeleteBucket(object):
 def delete_bucket(
     storage_bucket_name: str,
     force: bool = False,
-    timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
+    **kwargs,
 ) -> None:
     """Delete bucket. Returns None on Success.
 
@@ -49,7 +48,7 @@ def delete_bucket(
     return DeleteBucket()(
         storage_bucket_name=storage_bucket_name,
         force=force,
-        timeout=timeout,
+        **kwargs,
     ).alt(
         raise_exception,
     ).unwrap()

@@ -42,7 +42,7 @@ class DownloadFile(object):
         )
 
     @safe
-    def _get_blob(self, bucket: Bucket, filename: str) -> object:
+    def _get_blob(self, bucket: Bucket, filename: str) -> Bucket:
         return bucket.blob(filename)
 
     @safe

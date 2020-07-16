@@ -1,9 +1,13 @@
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
+from returns.curry import partial
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
+
+from storage_bucket.client import GetClient
 
 
 @final
@@ -11,10 +15,9 @@ from typing_extensions import final
 class CreateBucket(object):
     """Create a gcp storage bucket."""
 
-    _client = Client
+    get_client = GetClient()
     _bucket = Bucket
 
-    @pipeline(ResultE)
     def __call__(
         self,
         storage_bucket_name: str,
@@ -22,35 +25,27 @@ class CreateBucket(object):
         storage_class: str = 'STANDARD',
     ) -> ResultE[Bucket]:
         """List the storage bucket files."""
-        client = self._initialize_client().unwrap()  # type: ignore
-        bucket = self._initialize_bucket(  # type: ignore
-            client,
-            storage_bucket_name,
-            storage_class,
-        ).unwrap()
-
-        return self._create_bucket(client, bucket, location)  # type: ignore
+        return flow(
+            self.get_client(),
+            bind(partial(
+                self._create_bucket,
+                name=storage_bucket_name,
+                storage_class=storage_class,
+                location=location,
+            )),
+        )
 
     @safe
     def _create_bucket(
         self,
         client: Client,
-        bucket: Bucket,
+        name: str,
+        storage_class: str,
         location: str,
-    ) -> Bucket:
-        return client.create_bucket(bucket, location=location)
-
-    @safe
-    def _initialize_bucket(
-        self, client: Client, name: str, storage_class: str,
     ) -> Bucket:
         bucket = Bucket(client, name=name)
         bucket.storage_class = storage_class
-        return bucket
-
-    @safe
-    def _initialize_client(self) -> Client:
-        return self._client()
+        return client.create_bucket(bucket, location=location)
 
 
 def create_bucket(

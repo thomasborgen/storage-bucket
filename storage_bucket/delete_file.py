@@ -1,14 +1,13 @@
 from functools import partial
-from typing import Optional
 
 from attr import dataclass
 from google.cloud.storage import Bucket
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
 
-from storage_bucket.constants import TIMEOUT_TYPE
 from storage_bucket.get import GetBucket
 
 
@@ -37,36 +36,43 @@ class DeleteFile(object):
 
     _get_bucket = GetBucket()
 
-    @pipeline(ResultE)
     def __call__(
         self,
         storage_bucket_name: str,
         filename: str,
-        generation: Optional[int] = None,
-        timeout: Optional[TIMEOUT_TYPE] = None,
+        **kwargs,
     ) -> ResultE[None]:
         """Delete storage bucket file."""
-        return self._get_bucket(
+        return flow(
             storage_bucket_name,
-        ).bind(
-            partial(self._delete_file, filename=filename),
+            self._get_bucket,
+            bind(partial(
+                self._delete_file,
+                filename=filename,
+                **kwargs,
+            )),
         )
 
     @safe
-    def _delete_file(self, bucket: Bucket, filename: str) -> None:
-        bucket.delete_blob(filename)
+    def _delete_file(
+        self,
+        bucket: Bucket,
+        filename: str,
+        **kwargs,
+    ) -> None:
+        bucket.delete_blob(filename, **kwargs)
 
 
 def delete_file(
     storage_bucket_name: str,
     filename: str,
-    generation: Optional[int] = None,
+    **kwargs,
 ) -> None:
     """Delete file with DeleteFile but raise exception on failure."""
     DeleteFile()(
         storage_bucket_name=storage_bucket_name,
         filename=filename,
-        generation=generation,
+        **kwargs,
     ).alt(
         raise_exception,
     ).unwrap()

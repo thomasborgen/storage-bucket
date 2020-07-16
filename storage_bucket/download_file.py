@@ -1,7 +1,9 @@
 from attr import dataclass
 from google.cloud.storage import Blob, Bucket
+from returns.curry import partial
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
 
@@ -25,21 +27,22 @@ class DownloadFile(object):
     :return: Result[bytes, Exception]
     """
 
-    _get_bucket = GetBucket()
+    get_bucket = GetBucket()
 
-    @pipeline(ResultE)
     def __call__(
         self,
         storage_bucket_name: str,
         filename: str,
     ) -> ResultE[bytes]:
         """Download storage bucket file."""
-        bucket = self._get_bucket(storage_bucket_name).unwrap()
-        blob = self._get_blob(bucket, filename).unwrap()
-        return self._get_bytes(blob)
+        return flow(
+            self.get_bucket(storage_bucket_name),
+            bind(partial(self._get_blob, filename=filename)),
+            bind(self._get_bytes),
+        )
 
     @safe
-    def _get_blob(self, bucket: Bucket, filename: str) -> object:
+    def _get_blob(self, bucket: Bucket, filename: str) -> Bucket:
         return bucket.blob(filename)
 
     @safe

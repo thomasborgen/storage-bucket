@@ -1,59 +1,45 @@
 from attr import dataclass
-from google.cloud.storage import Bucket, Client
+from google.cloud.storage import Bucket
+from returns.curry import partial
 from returns.functions import raise_exception
-from returns.pipeline import pipeline
+from returns.pipeline import flow
+from returns.pointfree import bind
 from returns.result import ResultE, safe
 from typing_extensions import final
 
-from storage_bucket.constants import DEFAULT_TIMEOUT, TIMEOUT_TYPE
+from storage_bucket.get import GetBucket
 
 
 @final
 @dataclass(frozen=True, slots=True)
 class DeleteBucket(object):
-    """Create a gcp storage bucket."""
+    """Delete a gcp storage bucket."""
 
-    _client = Client
+    get_bucket = GetBucket()
 
-    @pipeline(ResultE)
     def __call__(
         self,
         storage_bucket_name: str,
         force: bool = False,
-        timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
+        **kwargs,
     ) -> ResultE[None]:
-        """List the storage bucket files."""
-        client = self._initialize_client().unwrap()  # type: ignore
-
-        bucket = self._get_bucket(  # type: ignore
-            client, storage_bucket_name,
-        ).unwrap()
-
-        return self._delete(bucket, force, timeout)
+        """Delete bucket."""
+        return flow(
+            storage_bucket_name,
+            self.get_bucket,
+            bind(partial(self._delete, force=force, **kwargs)),
+        )
 
     @safe
-    def _get_bucket(self, client: Client, name: str) -> Bucket:
-        return client.get_bucket(name)
-
-    @safe
-    def _delete(
-        self,
-        bucket: Bucket,
-        force: bool,
-        timeout: TIMEOUT_TYPE,
-    ) -> None:
+    def _delete(self, bucket: Bucket, force: bool, **kwargs) -> None:
         # This raises various exceptions.
-        bucket.delete(force=force, timeout=timeout)
-
-    @safe
-    def _initialize_client(self) -> Client:
-        return self._client()
+        bucket.delete(force=force, **kwargs)
 
 
 def delete_bucket(
     storage_bucket_name: str,
     force: bool = False,
-    timeout: TIMEOUT_TYPE = DEFAULT_TIMEOUT,
+    **kwargs,
 ) -> None:
     """Delete bucket. Returns None on Success.
 
@@ -62,7 +48,7 @@ def delete_bucket(
     return DeleteBucket()(
         storage_bucket_name=storage_bucket_name,
         force=force,
-        timeout=timeout,
+        **kwargs,
     ).alt(
         raise_exception,
     ).unwrap()

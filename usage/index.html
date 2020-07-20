@@ -1,0 +1,754 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Define a user story in the business transaction DSL.">
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.4.0">
+    
+    
+      
+        <title>Usage - storage-bucket</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.fe0cca5b.min.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a46bcfb3.min.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#7e57c2">
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fileblob-operations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="storage-bucket" class="md-header-nav__button md-logo" aria-label="storage-bucket">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0122 10.36v3.78A2.86 2.86 0 0119.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 01-2.86 2.86H9.86A2.86 2.86 0 017 19.64v-3.75a2.85 2.85 0 012.86-2.85h5.25a2.85 2.85 0 002.85-2.86V7.5h1.18m-4.28 11.79c-.4 0-.72.3-.72.89 0 .59.32.71.72.71a.71.71 0 00.71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 012 14.64v-3.78A2.86 2.86 0 014.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 019.86 2.5h4.28A2.86 2.86 0 0117 5.36v3.75a2.85 2.85 0 01-2.86 2.85H8.89a2.85 2.85 0 00-2.85 2.86v2.68H4.86M9.14 5.71c.4 0 .72-.3.72-.89 0-.59-.32-.71-.72-.71-.39 0-.71.12-.71.71s.32.89.71.89z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            storage-bucket
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Usage
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/thomasborgen/storage-bucket" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thomasborgen/storage-bucket
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+          
+
+  
+
+<nav class="md-tabs md-tabs--active" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href=".." class="md-tabs__link md-tabs__link--active">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../contrib/contributing/" class="md-tabs__link">
+          Contribution
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="storage-bucket" class="md-nav__button md-logo" aria-label="storage-bucket">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0122 10.36v3.78A2.86 2.86 0 0119.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 01-2.86 2.86H9.86A2.86 2.86 0 017 19.64v-3.75a2.85 2.85 0 012.86-2.85h5.25a2.85 2.85 0 002.85-2.86V7.5h1.18m-4.28 11.79c-.4 0-.72.3-.72.89 0 .59.32.71.72.71a.71.71 0 00.71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 012 14.64v-3.78A2.86 2.86 0 014.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 019.86 2.5h4.28A2.86 2.86 0 0117 5.36v3.75a2.85 2.85 0 01-2.86 2.85H8.89a2.85 2.85 0 00-2.85 2.86v2.68H4.86M9.14 5.71c.4 0 .72-.3.72-.89 0-.59-.32-.71-.72-.71-.39 0-.71.12-.71.71s.32.89.71.89z"/></svg>
+
+    </a>
+    storage-bucket
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/thomasborgen/storage-bucket" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    thomasborgen/storage-bucket
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1" checked>
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Home" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Home" class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Usage
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Usage" class="md-nav__link md-nav__link--active">
+      Usage
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fileblob-operations" class="md-nav__link">
+    File/blob operations
+  </a>
+  
+    <nav class="md-nav" aria-label="File/blob operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    Upload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    List
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    Delete
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bucket-operations" class="md-nav__link">
+    Bucket operations
+  </a>
+  
+    <nav class="md-nav" aria-label="Bucket operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-bucket" class="md-nav__link">
+    Create Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-bucket" class="md-nav__link">
+    Delete Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-buckets" class="md-nav__link">
+    List Buckets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../faq/" title="FAQ" class="md-nav__link">
+      FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Contribution
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Contribution
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contrib/contributing/" title="Contribution" class="md-nav__link">
+      Contribution
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contrib/dependencies/" title="Dependencies" class="md-nav__link">
+      Dependencies
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contrib/gcp/" title="GCP" class="md-nav__link">
+      GCP
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../contrib/tests/" title="Tests" class="md-nav__link">
+      Tests
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fileblob-operations" class="md-nav__link">
+    File/blob operations
+  </a>
+  
+    <nav class="md-nav" aria-label="File/blob operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    Upload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list" class="md-nav__link">
+    List
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete" class="md-nav__link">
+    Delete
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bucket-operations" class="md-nav__link">
+    Bucket operations
+  </a>
+  
+    <nav class="md-nav" aria-label="Bucket operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-bucket" class="md-nav__link">
+    Create Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-bucket" class="md-nav__link">
+    Delete Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#list-buckets" class="md-nav__link">
+    List Buckets
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                  
+                
+                
+                  <h1>Usage</h1>
+                
+                <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.download_file</span> <span class="kn">import</span> <span class="n">DownloadFile</span><span class="p">,</span> <span class="n">download_file</span>
+
+
+<span class="k">def</span> <span class="nf">use_data_for_something</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+
+<span class="c1"># Normal way, this might throw exception... handle them yourself.</span>
+<span class="n">my_data</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span>
+    <span class="s1">&#39;my_bucket&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;my_file.txt&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">use_data_for_something</span><span class="p">(</span><span class="n">my_data</span><span class="p">)</span>
+
+
+<span class="c1"># Functional way</span>
+<span class="c1"># this will _only_ call use_data_for_something when data is successfully downloaded.</span>
+<span class="c1"># so its completely safe.</span>
+<span class="n">DownloadFile</span><span class="p">()(</span>
+    <span class="s1">&#39;my_bucket&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;my_file.txt&#39;</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">use_data_for_something</span><span class="p">,</span>  <span class="c1"># send data to this function,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h2 id="fileblob-operations">File/blob operations<a class="headerlink" href="#fileblob-operations" title="Permanent link">&para;</a></h2>
+<h3 id="download">Download<a class="headerlink" href="#download" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.download_file</span> <span class="kn">import</span> <span class="n">DownloadFile</span><span class="p">,</span> <span class="n">download_file</span>
+
+<span class="n">DownloadFile</span><span class="p">()(</span><span class="s1">&#39;bucket&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+<span class="n">download_file</span><span class="p">(</span><span class="s1">&#39;bucket&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="upload">Upload<a class="headerlink" href="#upload" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.upload_file</span> <span class="kn">import</span> <span class="n">UploadFile</span><span class="p">,</span> <span class="n">upload_file</span>
+
+<span class="n">UploadFile</span><span class="p">()(</span><span class="sa">b</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;bucket_name&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+<span class="n">upload_file</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;bucket_name&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="list">List<a class="headerlink" href="#list" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.list_files</span> <span class="kn">import</span> <span class="n">ListFiles</span><span class="p">,</span> <span class="n">list_files</span>
+
+<span class="n">ListFiles</span><span class="p">()(</span><span class="s1">&#39;bucket&#39;</span><span class="p">)</span>
+<span class="n">list_files</span><span class="p">(</span><span class="s1">&#39;bucket&#39;</span><span class="p">)</span>
+
+<span class="n">ListFiles</span><span class="p">()(</span><span class="s1">&#39;bucket&#39;</span><span class="p">,</span> <span class="s1">&#39;foldername/&#39;</span><span class="p">)</span>
+<span class="n">list_files</span><span class="p">(</span><span class="s1">&#39;bucket&#39;</span><span class="p">,</span> <span class="s1">&#39;foldername/&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="delete">Delete<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.delete_file</span> <span class="kn">import</span> <span class="n">DeleteFile</span><span class="p">,</span> <span class="n">delete_file</span>
+
+<span class="n">DeleteFile</span><span class="p">()(</span><span class="s1">&#39;bucketname&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+<span class="n">delete_file</span><span class="p">(</span><span class="s1">&#39;bucketname&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="bucket-operations">Bucket operations<a class="headerlink" href="#bucket-operations" title="Permanent link">&para;</a></h2>
+<h3 id="create-bucket">Create Bucket<a class="headerlink" href="#create-bucket" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.create</span> <span class="kn">import</span> <span class="n">CreateBucket</span><span class="p">,</span> <span class="n">create_bucket</span>
+
+<span class="n">CreateBucket</span><span class="p">()(</span><span class="s1">&#39;bucket-name&#39;</span><span class="p">,</span> <span class="s1">&#39;EU&#39;</span><span class="p">,</span> <span class="s1">&#39;STANDARD&#39;</span><span class="p">)</span>
+<span class="n">create_bucket</span><span class="p">(</span><span class="s1">&#39;bucket-name&#39;</span><span class="p">,</span> <span class="s1">&#39;EU&#39;</span><span class="p">,</span> <span class="s1">&#39;STANDARD&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="delete-bucket">Delete Bucket<a class="headerlink" href="#delete-bucket" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.delete</span> <span class="kn">import</span> <span class="n">DeleteBucket</span><span class="p">,</span> <span class="n">delete_bucket</span>
+
+<span class="n">DeleteBucket</span><span class="p">()(</span><span class="s1">&#39;bucket-name&#39;</span><span class="p">)</span>
+<span class="n">delete_bucket</span><span class="p">(</span><span class="s1">&#39;bucket-name&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="list-buckets">List Buckets<a class="headerlink" href="#list-buckets" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.list</span> <span class="kn">import</span> <span class="n">ListBuckets</span><span class="p">,</span> <span class="n">list_buckets</span><span class="p">,</span> <span class="n">list_bucket_names</span>
+
+<span class="n">buckets</span> <span class="o">=</span> <span class="n">ListBuckets</span><span class="p">()()</span>
+<span class="n">bucket_names</span> <span class="o">=</span> <span class="n">list_bucket_names</span><span class="p">(</span><span class="n">buckets</span><span class="o">.</span><span class="n">unwrap</span><span class="p">())</span>
+
+<span class="n">buckets2</span> <span class="o">=</span> <span class="n">list_buckets</span><span class="p">()</span>
+<span class="n">bucket_names2</span> <span class="o">=</span> <span class="n">list_bucket_names</span><span class="p">(</span><span class="n">buckets2</span><span class="p">)</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href=".." title="Home" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../faq/" title="FAQ" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                FAQ
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.d710d30a.min.js"></script>
+      <script src="../assets/javascripts/bundle.b39636ac.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: ["tabs"],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.a68abb33.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

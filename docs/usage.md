@@ -14,7 +14,7 @@ my_data = download_file(
 use_data_for_something(my_data)
 
 
-# Returns Modal way
+# Functional way
 # this will _only_ call use_data_for_something when data is successfully downloaded.
 # so its completely safe.
 DownloadFile()(

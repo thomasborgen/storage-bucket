@@ -1,0 +1,37 @@
+---
+strict: true
+site_name: storage-bucket
+site_description: Define a user story in the business transaction DSL.
+theme:
+  name: material
+  palette:
+    primary: deep-purple
+    accent: deep-purple
+  icon:
+    logo: material/language-python
+  language: en
+  features:
+    - tabs
+repo_name: thomasborgen/storage-bucket
+repo_url: https://github.com/thomasborgen/storage-bucket
+edit_uri: ""
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+nav:
+  - Home:
+      - Home: index.md
+      - Usage: usage.md
+      - FAQ: faq.md
+  - Contribution:
+      - Contribution: contrib/contributing.md
+      - Dependencies: contrib/dependencies.md
+      - GCP: contrib/gcp.md
+      - Tests: contrib/tests.md

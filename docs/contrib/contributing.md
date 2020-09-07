@@ -3,7 +3,7 @@
 ## Submitting your code
 
 1. We use protected `master` branch, so the only way to push code is via [pull-request](http://oss-watch.ac.uk/resources/pullrequest)
-2. To implement new issue, you need to create either bugfix/name-of-the-bug or feature/name-of-the-feature
+2. To implement new issue, you need to create either fix/name-of-the-bug or feature/name-of-the-feature
 3. One of the commits should say Close #ISSUE_NUMBER, so pull-request will be associated with certain issue
 4. Branch should be rebased on top of latest `master` branch
 5. You can mark branch as `[WIP]` until it is finished and all checks are passed

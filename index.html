@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart" class="md-skip">
+        <a href="#storage-bucket" class="md-skip">
           Skip to content
         </a>
       
@@ -258,6 +258,8 @@
     
     <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
+      
+    
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         Home
@@ -274,6 +276,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon">
@@ -286,6 +290,61 @@
         <li class="md-nav__item">
   <a href="#quickstart" class="md-nav__link">
     Quickstart
+  </a>
+  
+    <nav class="md-nav" aria-label="Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    Upload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operations-file" class="md-nav__link">
+    Supported operations - File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operations-bucket" class="md-nav__link">
+    Supported operations - Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-usage" class="md-nav__link">
+    Check Usage.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-on-the-use-of-returns-library" class="md-nav__link">
+    Note on the use of Returns library.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution" class="md-nav__link">
+    Contribution
   </a>
   
 </li>
@@ -418,6 +477,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon">
@@ -430,6 +491,61 @@
         <li class="md-nav__item">
   <a href="#quickstart" class="md-nav__link">
     Quickstart
+  </a>
+  
+    <nav class="md-nav" aria-label="Quickstart">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#download" class="md-nav__link">
+    Download
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upload" class="md-nav__link">
+    Upload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operations-file" class="md-nav__link">
+    Supported operations - File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-operations-bucket" class="md-nav__link">
+    Supported operations - Bucket
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-usage" class="md-nav__link">
+    Check Usage.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#note-on-the-use-of-returns-library" class="md-nav__link">
+    Note on the use of Returns library.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribution" class="md-nav__link">
+    Contribution
   </a>
   
 </li>
@@ -450,18 +566,57 @@
                   
                 
                 
-                  <h1>Home</h1>
-                
-                <h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
-<ol>
-<li>get the package</li>
-<li><code>pip install storage-bucket</code></li>
-<li>Download your keyfile and save it as key.json and point to it with env var:</li>
-<li><code>gcloud iam service-accounts keys create key.json --iam-account your_service_account@your_project.iam.gserviceaccount.com</code></li>
-<li><code>export GOOGLE_APPLICATION_CREDENTIALS='key.json'</code></li>
-<li>Run some code.</li>
-</ol>
-<p>See <a href="usage/">Usage</a>.</p>
+                <h1 id="storage-bucket">Storage Bucket<a class="headerlink" href="#storage-bucket" title="Permanent link">&para;</a></h1>
+<p>Makes working with GCP Storage bucket a breeze</p>
+<hr />
+<p><img alt="test" src="https://github.com/thomasborgen/storage-bucket/workflows/test/badge.svg" />
+<a href="https://codecov.io/gh/thomasborgen/storage-bucket"><img alt="codecov" src="https://codecov.io/gh/thomasborgen/storage-bucket/branch/master/graph/badge.svg" /></a>
+<a href="https://pypi.org/project/storage-bucket/"><img alt="Python Version" src="https://img.shields.io/pypi/pyversions/storage-bucket.svg" /></a>
+<a href="https://github.com/wemake-services/wemake-python-styleguide"><img alt="wemake-python-styleguide" src="https://img.shields.io/badge/style-wemake-000000.svg" /></a></p>
+<hr />
+<p><strong><a href="https://thomasborgen.github.io/storage-bucket/">Documentation</a> |
+<a href="https://github.com/thomasborgen/storage-bucket">Source Code</a> |
+<a href="https://github.com/thomasborgen/storage-bucket/issues">Issue Tracker</a></strong></p>
+<p>The goal of this package is to make it easy to work with GCP Storage Bucket. We felt that using googles package(google-cloud-storage) was a horrible experience and we believe that this package abstracts away the object oriented approach taken by google and introduces a more functional approach.</p>
+<h2 id="quickstart">Quickstart<a class="headerlink" href="#quickstart" title="Permanent link">&para;</a></h2>
+<p>Get the package
+<div class="highlight"><pre><span></span><code>pip install storage-bucket
+</code></pre></div></p>
+<p>Download your keyfile and save it as key.json and point to it with env var:</p>
+<div class="highlight"><pre><span></span><code>gcloud iam service-accounts keys create key.json --iam-account your_service_account@your_project.iam.gserviceaccount.com
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span><span class="s1">&#39;key.json&#39;</span>
+</code></pre></div>
+
+<h3 id="download">Download<a class="headerlink" href="#download" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.download_file</span> <span class="kn">import</span> <span class="n">download_file</span>
+
+<span class="n">file_data</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="s1">&#39;bucket&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">file_data</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="upload">Upload<a class="headerlink" href="#upload" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">storage_bucket.upload_file</span> <span class="kn">import</span> <span class="n">upload_file</span>
+
+<span class="n">upload_file</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;bucket_name&#39;</span><span class="p">,</span> <span class="s1">&#39;filename&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="supported-operations-file">Supported operations - File<a class="headerlink" href="#supported-operations-file" title="Permanent link">&para;</a></h3>
+<p><code>Download</code>, <code>Upload</code>, <code>List</code>, <code>Delete</code></p>
+<h3 id="supported-operations-bucket">Supported operations - Bucket<a class="headerlink" href="#supported-operations-bucket" title="Permanent link">&para;</a></h3>
+<p><code>Create</code>, <code>Delete</code>, <code>List</code></p>
+<h3 id="check-usage">Check <a href="https://thomasborgen.github.io/storage-bucket/usage">Usage</a>.<a class="headerlink" href="#check-usage" title="Permanent link">&para;</a></h3>
+<h2 id="note-on-the-use-of-returns-library">Note on the use of <a href="https://github.com/dry-python/returns">Returns</a> library.<a class="headerlink" href="#note-on-the-use-of-returns-library" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Lets us get rid of all exceptions.</li>
+<li>Lets us chain stuff so everything looks good.</li>
+<li>Lets you use <code>DownloadFile()(args...).map(dostuff).alt(dostuffonfailure)</code></li>
+<li>Don't like it? use the matching normal function provided for your convenience.</li>
+</ul>
+<h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link">&para;</a></h2>
+<p>Like the library and want to help us, check: <a href="https://thomasborgen.github.io/storage-bucket/contrib/contributing/">contributing</a></p>
                 
               
               

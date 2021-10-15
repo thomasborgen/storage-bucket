@@ -1,10 +1,5 @@
 from attr import dataclass
 from google.cloud.storage import Bucket, Client
-from returns.curry import partial
-from returns.functions import raise_exception
-from returns.pipeline import flow
-from returns.pointfree import bind
-from returns.result import ResultE, safe
 from typing_extensions import final
 
 from storage_bucket.client import GetClient
@@ -23,21 +18,21 @@ class CreateBucket(object):
         storage_bucket_name: str,
         location: str,
         storage_class: str = 'STANDARD',
-    ) -> ResultE[Bucket]:
+    ) -> Bucket:
         """List the storage bucket files."""
-        return flow(
-            self.get_client(),
-            bind(partial(
-                self._create_bucket,
-                name=storage_bucket_name,
-                storage_class=storage_class,
-                location=location,
-            )),
+
+        client = self.get_client()
+
+        return self._create_bucket(
+            client=client,
+            name=storage_bucket_name,
+            storage_class=storage_class,
+            location=location,
         )
 
-    @safe
     def _create_bucket(
         self,
+        *,
         client: Client,
         name: str,
         storage_class: str,
@@ -49,6 +44,7 @@ class CreateBucket(object):
 
 
 def create_bucket(
+    *,
     storage_bucket_name: str,
     location: str,
     storage_class: str = 'STANDARD',
@@ -61,6 +57,4 @@ def create_bucket(
         storage_bucket_name=storage_bucket_name,
         location=location,
         storage_class=storage_class,
-    ).alt(
-        raise_exception,
-    ).unwrap()
+    )

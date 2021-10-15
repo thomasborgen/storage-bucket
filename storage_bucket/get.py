@@ -3,7 +3,7 @@ from google.cloud.storage import Bucket, Client
 from returns.curry import partial
 from returns.functions import raise_exception
 from returns.pipeline import flow
-from returns.pointfree import bind
+from returns.pointfree import bind, map_
 from returns.result import ResultE, safe
 from typing_extensions import final
 
@@ -23,13 +23,12 @@ class GetBucket(object):
         **kwargs,
     ) -> ResultE[Bucket]:
         """Get the storage bucket."""
-        return flow(
-            self.get_client(),
-            bind(partial(
-                self._get_bucket,
-                storage_bucket_name=storage_bucket_name,
-                **kwargs,
-            )),
+        client = self.get_client()
+
+        return self._get_bucket(
+            client=client,
+            storage_bucket_name=storage_bucket_name,
+            **kwargs
         )
 
     @safe

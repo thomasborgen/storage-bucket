@@ -15,7 +15,10 @@ def existing_bucket():
     """
     bucket_name = 'test-bucket-{uuid}'.format(uuid=uuid.uuid1())
 
-    create_bucket(bucket_name, 'EU')
+    create_bucket(
+        storage_bucket_name=bucket_name,
+        location='EU',
+    )
     yield bucket_name
     delete_bucket(bucket_name, force=True)
 

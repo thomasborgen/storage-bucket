@@ -1,10 +1,5 @@
 from attr import dataclass
 from google.cloud.storage import Blob, Bucket
-from returns.curry import partial
-from returns.functions import raise_exception
-from returns.pipeline import flow
-from returns.pointfree import bind
-from returns.result import ResultE, safe
 from typing_extensions import final
 
 from storage_bucket.get import GetBucket
@@ -41,33 +36,19 @@ class UploadFile(object):
         storage_bucket_name: str,
         filename: str,
         **kwargs,
-    ) -> ResultE[None]:
-        """Download storage bucket file."""
-        return flow(
-            storage_bucket_name,
-            self.get_bucket,
-            bind(partial(self._get_blob, filename=filename)),
-            bind(partial(
-                self._upload_data,
-                file_content=file_content,
-                **kwargs,
-            )),
-        )
-
-    @safe
-    def _get_blob(
-        self, bucket: Bucket, filename: str,
-    ) -> object:
-        return bucket.blob(filename)
-
-    @safe
-    def _upload_data(
-        self, blob: Blob, file_content: bytes, **kwargs,
     ) -> None:
-        blob.upload_from_string(file_content, **kwargs)
+        """Download storage bucket file."""
+        bucket = self.get_bucket(storage_bucket_name=storage_bucket_name)
+
+        blob = bucket.blob(filename)
+        blob.upload_from_string(
+            file_content,
+            **kwargs,
+        )
 
 
 def upload_file(
+    *,
     file_content: bytes,
     storage_bucket_name: str,
     filename: str,
@@ -79,6 +60,4 @@ def upload_file(
         storage_bucket_name=storage_bucket_name,
         filename=filename,
         content_type=content_type,
-    ).alt(
-        raise_exception,
-    ).unwrap()
+    )

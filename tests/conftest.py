@@ -20,7 +20,7 @@ def existing_bucket():
         location='EU',
     )
     yield bucket_name
-    delete_bucket(bucket_name, force=True)
+    delete_bucket(storage_bucket_name=bucket_name, force=True)
 
 
 @pytest.fixture(scope='function')
@@ -32,7 +32,7 @@ def creatable_bucket():
     """
     bucket_name = 'test-bucket-{uuid}'.format(uuid=uuid.uuid1())
     yield bucket_name
-    delete_bucket(bucket_name, force=True)
+    delete_bucket(storage_bucket_name=bucket_name, force=True)
 
 
 @pytest.fixture(scope='function')
@@ -59,7 +59,11 @@ def bucket_and_deletable_file(existing_bucket):
     yields Tuple[str, str]
     """
     filename = 'delete-test-{uuid}'.format(uuid=uuid.uuid1())
-    upload_file(b'data', existing_bucket, filename)
+    upload_file(
+        file_content=b'data',
+        storage_bucket_name=existing_bucket,
+        filename=filename
+    )
     yield (existing_bucket, filename)
 
 

@@ -34,7 +34,7 @@ class DownloadFile(object):
 
         blob = bucket.blob(filename)
 
-        return blob.download_as_string()
+        return blob.download_as_bytes()
 
 
 def download_file(

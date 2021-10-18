@@ -30,12 +30,10 @@ jobs:
         key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
       run: |
-        source "$HOME/.poetry/env"
         poetry config virtualenvs.in-project true
         poetry install
     - name: Run tests
       run: |
-        source "$HOME/.poetry/env"
         poetry run poetry check
         poetry run pip check
         poetry run flake8 .

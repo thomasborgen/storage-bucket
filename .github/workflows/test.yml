@@ -18,7 +18,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Create gcloud key file
-      run: openssl base64 -d -A <<< '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' > key.json
+      run: openssl base64 -d -A <<< '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' -out key.json
 
     - name: Install poetry
       run: |

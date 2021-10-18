@@ -11,6 +11,7 @@ class GetClient(object):
     client = Client
 
     def __call__(self) -> Client:
+        """Return the initialized self.client."""
         return self.client()
 
 

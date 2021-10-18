@@ -1,5 +1,4 @@
 from attr import dataclass
-from google.cloud.storage import Bucket
 from typing_extensions import final
 
 from storage_bucket.get import GetBucket

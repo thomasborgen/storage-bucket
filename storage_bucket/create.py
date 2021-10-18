@@ -20,7 +20,6 @@ class CreateBucket(object):
         storage_class: str = 'STANDARD',
     ) -> Bucket:
         """List the storage bucket files."""
-
         client = self.get_client()
 
         return self._create_bucket(

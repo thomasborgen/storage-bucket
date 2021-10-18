@@ -1,7 +1,4 @@
-from functools import partial
-
 from attr import dataclass
-from google.cloud.storage import Bucket
 from typing_extensions import final
 
 from storage_bucket.get import GetBucket
@@ -39,7 +36,6 @@ class DeleteFile(object):
         **kwargs,
     ) -> None:
         """Delete storage bucket file."""
-
         bucket = self.get_bucket(storage_bucket_name=storage_bucket_name)
 
         bucket.delete_blob(

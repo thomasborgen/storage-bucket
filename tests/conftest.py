@@ -62,7 +62,7 @@ def bucket_and_deletable_file(existing_bucket):
     upload_file(
         file_content=b'data',
         storage_bucket_name=existing_bucket,
-        filename=filename
+        filename=filename,
     )
     yield (existing_bucket, filename)
 
@@ -81,5 +81,9 @@ def bucket_with_files(existing_bucket):
     )
 
     for filename_create in filenames:
-        upload_file(b'a', existing_bucket, filename_create)
+        upload_file(
+            file_content=b'a',
+            storage_bucket_name=existing_bucket,
+            filename=filename_create,
+        )
     yield (existing_bucket, filenames)

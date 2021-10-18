@@ -9,7 +9,7 @@ def test_download_file_modal(bucket_with_files):
     assert DownloadFile()(
         storage_bucket_name=bucket_with_files[0],
         filename=bucket_with_files[1][0],
-    ).unwrap() == b'a'
+    ) == b'a'
 
 
 def test_download_file_function(bucket_with_files):
@@ -22,11 +22,11 @@ def test_download_file_function(bucket_with_files):
 
 def test_download_file_modal_failure(existing_bucket):
     """Test downloading a non-existant file returns Failure(NotFound)."""
-    download_result = DownloadFile()(
-        storage_bucket_name=existing_bucket,
-        filename='does not exist.txt',
-    )
-    assert isinstance(download_result.failure(), NotFound)
+    with pytest.raises(NotFound):
+        DownloadFile()(
+            storage_bucket_name=existing_bucket,
+            filename='does not exist.txt',
+        )
 
 
 def test_download_file_function_raises(existing_bucket):

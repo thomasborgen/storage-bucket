@@ -12,3 +12,8 @@ class GetClient(object):
 
     def __call__(self) -> Client:
         return self.client()
+
+
+def get_client() -> Client:
+    """Get client help function, no CO."""
+    return GetClient()()

@@ -11,7 +11,6 @@ class CreateBucket(object):
     """Create a gcp storage bucket."""
 
     get_client = GetClient()
-    _bucket = Bucket
 
     def __call__(
         self,

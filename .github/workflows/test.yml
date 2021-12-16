@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: ['3.6', '3.7', '3.8', '3.9']
 
     steps:
     - uses: actions/checkout@v2
@@ -18,12 +18,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Create gcloud key file
-      run: echo ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }} > key.json
+      run: openssl base64 -d -A <<< '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' -out key.json
 
     - name: Install poetry
       run: |
-        curl -sSL \
-          "https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py" | python
+        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
     - name: Set up cache
       uses: actions/cache@v1
       with:
@@ -31,12 +30,10 @@ jobs:
         key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
       run: |
-        source "$HOME/.poetry/env"
         poetry config virtualenvs.in-project true
         poetry install
     - name: Run tests
       run: |
-        source "$HOME/.poetry/env"
         poetry run poetry check
         poetry run pip check
         poetry run flake8 .

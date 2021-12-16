@@ -1,11 +1,4 @@
-from functools import partial
-
 from attr import dataclass
-from google.cloud.storage import Bucket
-from returns.functions import raise_exception
-from returns.pipeline import flow
-from returns.pointfree import bind
-from returns.result import ResultE, safe
 from typing_extensions import final
 
 from storage_bucket.get import GetBucket
@@ -34,33 +27,21 @@ class DeleteFile(object):
     :return: Result[None, Exception]
     """
 
-    _get_bucket = GetBucket()
+    get_bucket = GetBucket()
 
     def __call__(
         self,
         storage_bucket_name: str,
         filename: str,
         **kwargs,
-    ) -> ResultE[None]:
-        """Delete storage bucket file."""
-        return flow(
-            storage_bucket_name,
-            self._get_bucket,
-            bind(partial(
-                self._delete_file,
-                filename=filename,
-                **kwargs,
-            )),
-        )
-
-    @safe
-    def _delete_file(
-        self,
-        bucket: Bucket,
-        filename: str,
-        **kwargs,
     ) -> None:
-        bucket.delete_blob(filename, **kwargs)
+        """Delete storage bucket file."""
+        bucket = self.get_bucket(storage_bucket_name=storage_bucket_name)
+
+        bucket.delete_blob(
+            filename,
+            **kwargs,
+        )
 
 
 def delete_file(
@@ -73,6 +54,4 @@ def delete_file(
         storage_bucket_name=storage_bucket_name,
         filename=filename,
         **kwargs,
-    ).alt(
-        raise_exception,
-    ).unwrap()
+    )

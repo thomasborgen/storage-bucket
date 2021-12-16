@@ -2,8 +2,6 @@ from typing import Callable, Iterator, Optional, Set, Union
 
 from attr import dataclass
 from google.cloud.storage import Bucket
-from returns.functions import raise_exception
-from returns.result import safe
 from typing_extensions import final
 
 from storage_bucket.client import GetClient
@@ -12,18 +10,10 @@ from storage_bucket.client import GetClient
 @final
 @dataclass(frozen=True, slots=True)
 class ListBuckets(object):
-    """List storage buckets.
-
-    .. code:: python
-
-      >>> from returns.pipeline import is_successful
-      >>> assert ListBuckets()()
-      >>> assert is_successful(ListBuckets()(prefix='test'))
-    """
+    """List storage buckets."""
 
     get_client: Callable = GetClient()
 
-    @safe
     def __call__(
         self,
         max_results: Optional[int] = None,
@@ -35,9 +25,7 @@ class ListBuckets(object):
         timeout: Union[float, int] = 60,
     ) -> Set[Bucket]:
         """List the storage bucket files."""
-        client = self.get_client().alt(
-            raise_exception,
-        ).unwrap()
+        client = self.get_client()
 
         return client.list_buckets(
             max_results=max_results,
@@ -71,9 +59,7 @@ def list_buckets(
         projection=projection,
         project=project,
         timeout=timeout,
-    ).alt(
-        raise_exception,
-    ).unwrap()
+    )
 
 
 def list_bucket_names(buckets: Set[Bucket]) -> Iterator[str]:

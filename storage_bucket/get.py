@@ -1,10 +1,5 @@
 from attr import dataclass
-from google.cloud.storage import Bucket, Client
-from returns.curry import partial
-from returns.functions import raise_exception
-from returns.pipeline import flow
-from returns.pointfree import bind
-from returns.result import ResultE, safe
+from google.cloud.storage import Bucket
 from typing_extensions import final
 
 from storage_bucket.client import GetClient
@@ -19,26 +14,13 @@ class GetBucket(object):
 
     def __call__(
         self,
-        storage_bucket_name: str,
-        **kwargs,
-    ) -> ResultE[Bucket]:
-        """Get the storage bucket."""
-        return flow(
-            self.get_client(),
-            bind(partial(
-                self._get_bucket,
-                storage_bucket_name=storage_bucket_name,
-                **kwargs,
-            )),
-        )
-
-    @safe
-    def _get_bucket(
-        self,
-        client: Client,
+        *,
         storage_bucket_name: str,
         **kwargs,
     ) -> Bucket:
+        """Get the storage bucket."""
+        client = self.get_client()
+
         return client.get_bucket(storage_bucket_name, **kwargs)
 
 
@@ -53,6 +35,4 @@ def get_bucket(
     return GetBucket()(
         storage_bucket_name=storage_bucket_name,
         **kwargs,
-    ).alt(
-        raise_exception,
-    ).unwrap()
+    )

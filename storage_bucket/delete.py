@@ -31,10 +31,7 @@ def delete_bucket(
     force: bool = False,
     **kwargs,
 ) -> None:
-    """Delete bucket. Returns None on Success.
-
-    Raise exception when Modal is in failure state.
-    """
+    """Run DeleteBucket."""
     return DeleteBucket()(
         storage_bucket_name=storage_bucket_name,
         force=force,

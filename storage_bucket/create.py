@@ -32,10 +32,7 @@ def create_bucket(
     location: str,
     storage_class: str = 'STANDARD',
 ) -> Bucket:
-    """Create bucket but return bucket instead of Modal.
-
-    Raise exception when Modal is in failure state.
-    """
+    """Run CreateBucket."""
     return CreateBucket()(
         storage_bucket_name=storage_bucket_name,
         location=location,

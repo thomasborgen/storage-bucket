@@ -8,6 +8,10 @@
 
 ## Latest Changes
 
+### Docs
+
+    * Removes anything related to returns from docs (48)[https://github.com/thomasborgen/storage-bucket/issues/48]
+
 ## 2.0.0 - Return to life before `returns`
 
 This change has been on my mind a while. Using Returns library and especially wanting to use its latest releases creates a dependency hell since every release is breaking. We don't really need it so until its mature enough, lets stop using it.

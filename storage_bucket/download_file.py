@@ -18,7 +18,7 @@ class DownloadFile(object):
     :param filename: The name of the file to download
     :type filename: str
 
-    :return: Result[bytes, Exception]
+    :return: bytes
     """
 
     get_bucket = GetBucket()
@@ -42,7 +42,7 @@ def download_file(
     storage_bucket_name: str,
     filename: str,
 ) -> bytes:
-    """Download file as per usual but raise exception on error."""
+    """Run DownloadFile."""
     return DownloadFile()(
         storage_bucket_name=storage_bucket_name,
         filename=filename,

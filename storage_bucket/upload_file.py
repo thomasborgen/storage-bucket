@@ -24,16 +24,17 @@ class UploadFile(object):
     :param content_type: What type of file to create, defaults to text/plain
     :type content_type: str
 
-    :return: Result[None, Exception]
+    :return: None
     """
 
     get_bucket = GetBucket()
 
-    def __call__(
+    def __call__(  # noqa: WPS211 allow to exceed 5 arguments
         self,
         file_content: bytes,
         storage_bucket_name: str,
         filename: str,
+        content_type: str = 'application/octet-stream',
         **kwargs,
     ) -> None:
         """Download storage bucket file."""
@@ -42,6 +43,7 @@ class UploadFile(object):
         blob = bucket.blob(filename)
         blob.upload_from_string(
             file_content,
+            content_type=content_type,
             **kwargs,
         )
 
@@ -53,7 +55,7 @@ def upload_file(
     filename: str,
     content_type: str = 'application/octet-stream',
 ) -> None:
-    """Upload file as per usual but raise exception on error."""
+    """Run UploadFile."""
     return UploadFile()(
         file_content=file_content,
         storage_bucket_name=storage_bucket_name,

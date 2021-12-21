@@ -1,5 +1,5 @@
 from attr import dataclass
-from google.cloud.storage import Bucket, Client
+from google.cloud.storage import Bucket
 from typing_extensions import final
 
 from storage_bucket.client import GetClient
@@ -21,22 +21,7 @@ class CreateBucket(object):
         """List the storage bucket files."""
         client = self.get_client()
 
-        return self._create_bucket(
-            client=client,
-            name=storage_bucket_name,
-            storage_class=storage_class,
-            location=location,
-        )
-
-    def _create_bucket(
-        self,
-        *,
-        client: Client,
-        name: str,
-        storage_class: str,
-        location: str,
-    ) -> Bucket:
-        bucket = Bucket(client, name=name)
+        bucket = Bucket(client, name=storage_bucket_name)
         bucket.storage_class = storage_class
         return client.create_bucket(bucket, location=location)
 
@@ -47,10 +32,7 @@ def create_bucket(
     location: str,
     storage_class: str = 'STANDARD',
 ) -> Bucket:
-    """Create bucket but return bucket instead of Modal.
-
-    Raise exception when Modal is in failure state.
-    """
+    """Run CreateBucket."""
     return CreateBucket()(
         storage_bucket_name=storage_bucket_name,
         location=location,

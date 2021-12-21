@@ -24,7 +24,7 @@ class DeleteFile(object):
     :param timout: The amount of time, in seconds, to wait for the server
     response.
 
-    :return: Result[None, Exception]
+    :return: None
     """
 
     get_bucket = GetBucket()
@@ -49,7 +49,7 @@ def delete_file(
     filename: str,
     **kwargs,
 ) -> None:
-    """Delete file with DeleteFile but raise exception on failure."""
+    """Run DeleteFile."""
     DeleteFile()(
         storage_bucket_name=storage_bucket_name,
         filename=filename,

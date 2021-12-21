@@ -28,10 +28,7 @@ def get_bucket(
     storage_bucket_name: str,
     **kwargs,
 ) -> Bucket:
-    """Get bucket but return bucket instead of Modal.
-
-    Raise exception when Modal is in failure state.
-    """
+    """Run GetBucket."""
     return GetBucket()(
         storage_bucket_name=storage_bucket_name,
         **kwargs,

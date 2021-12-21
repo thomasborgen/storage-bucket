@@ -16,5 +16,5 @@ class GetClient(object):
 
 
 def get_client() -> Client:
-    """Get client help function, no CO."""
+    """Run GetClient."""
     return GetClient()()

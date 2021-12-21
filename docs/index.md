@@ -22,6 +22,11 @@ Get the package
 pip install storage-bucket
 ```
 
+Or better with `poetry`
+```sh
+poetry add storage-bucket
+```
+
 Download your keyfile and save it as key.json and point to it with env var:
 
 ```sh
@@ -58,12 +63,6 @@ upload_file(b'data', 'bucket_name', 'filename')
 `Create`, `Delete`, `List`
 
 ### Check [Usage](https://thomasborgen.github.io/storage-bucket/usage).
-
-## Note on the use of [Returns](https://github.com/dry-python/returns) library.
-  * Lets us get rid of all exceptions.
-  * Lets us chain stuff so everything looks good.
-  * Lets you use `DownloadFile()(args...).map(dostuff).alt(dostuffonfailure)`
-  * Don't like it? use the matching normal function provided for your convenience.
 
 ## Contribution
 

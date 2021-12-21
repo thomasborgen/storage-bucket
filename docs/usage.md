@@ -1,95 +1,61 @@
-```python
-from storage_bucket.download_file import DownloadFile, download_file
+# File/blob operations
 
-
-def use_data_for_something(data):
-    print(data)
-
-
-# Normal way, this might throw exception... handle them yourself.
-my_data = download_file(
-    'my_bucket',
-    'my_file.txt',
-)
-use_data_for_something(my_data)
-
-
-# Functional way
-# this will _only_ call use_data_for_something when data is successfully downloaded.
-# so its completely safe.
-DownloadFile()(
-    'my_bucket',
-    'my_file.txt',
-).map(
-    use_data_for_something,  # send data to this function,
-)
-
-```
-
-## File/blob operations
-
-### Download
+## Download
 
 ```python
-from storage_bucket.download_file import DownloadFile, download_file
+from storage_bucket.download_file import download_file
 
-DownloadFile()('bucket', 'filename')
 download_file('bucket', 'filename')
 ```
 
-### Upload
-```python
-from storage_bucket.upload_file import UploadFile, upload_file
+## Upload
 
-UploadFile()(b'data', 'bucket_name', 'filename')
+```python
+from storage_bucket.upload_file import upload_file
+
 upload_file(b'data', 'bucket_name', 'filename')
 ```
 
-### List
-```python
-from storage_bucket.list_files import ListFiles, list_files
+## List
 
-ListFiles()('bucket')
+```python
+from storage_bucket.list_files import list_files
+
 list_files('bucket')
 
-ListFiles()('bucket', 'foldername/')
 list_files('bucket', 'foldername/')
 ```
 
-### Delete
-```python
-from storage_bucket.delete_file import DeleteFile, delete_file
+## Delete
 
-DeleteFile()('bucketname', 'filename')
+```python
+from storage_bucket.delete_file import delete_file
+
 delete_file('bucketname', 'filename')
 ```
 
-## Bucket operations
+# Bucket operations
 
-### Create Bucket
+## Create Bucket
+
 ```python
-from storage_bucket.create import CreateBucket, create_bucket
+from storage_bucket.create import create_bucket
 
-CreateBucket()('bucket-name', 'EU', 'STANDARD')
 create_bucket('bucket-name', 'EU', 'STANDARD')
-
 ```
 
-### Delete Bucket
-```python
-from storage_bucket.delete import DeleteBucket, delete_bucket
+## Delete Bucket
 
-DeleteBucket()('bucket-name')
+```python
+from storage_bucket.delete import delete_bucket
+
 delete_bucket('bucket-name')
-
 ```
 
-### List Buckets
-```python
-from storage_bucket.list import ListBuckets, list_buckets, list_bucket_names
+## List Buckets
 
-buckets = ListBuckets()()
-bucket_names = list_bucket_names(buckets.unwrap())
+```python
+from storage_bucket.list import list_buckets, list_bucket_names
 
 buckets2 = list_buckets()
 bucket_names2 = list_bucket_names(buckets2)

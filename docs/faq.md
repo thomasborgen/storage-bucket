@@ -2,7 +2,7 @@
 
 ## How is it different from the google-cloud-storage library designed and maintained by Google?
 
-This library is built on top of [google-cloud-storage](google-cloud-storage). `storage-bucket` library allows to work in functional style and abstracts away common use-cases which bloats code with boileraplate. It enables smooth integration with [`returns`](https://github.com/dry-python/returns) library functional style and is powered by it.
+This library is built on top of [google-cloud-storage](google-cloud-storage). `storage-bucket` library allows to work in functional style and abstracts away common use-cases which bloats code with boileraplate.
 
 ## Missing a feature?
 

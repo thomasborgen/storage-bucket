@@ -1,20 +1,9 @@
-from typing import Literal, Union
-
-from attr import dataclass
 from google.cloud.storage.bucket import Bucket
 
-from storage_bucket.create_bucket import BaseCreateBucket
 from storage_bucket.enums import Platform
 from storage_bucket.gcp.client import gcp_get_client
+from storage_bucket.gcp.schema import GCPCreateBucket
 from storage_bucket.registries import register_create_bucket
-
-
-@dataclass
-class GCPCreateBucket(BaseCreateBucket):
-    """Google Cloud Platform create bucket parameters."""
-
-    storage_class: Union[Literal['STANDARD'], Literal['TEST']]
-    location: str
 
 
 @register_create_bucket(platform=Platform.gcp)

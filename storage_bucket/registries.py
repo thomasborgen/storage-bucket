@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 from storage_bucket.enums import Platform
 
 if TYPE_CHECKING:
-    from storage_bucket.create_bucket import BaseCreateBucket
+    from storage_bucket.schema import BaseCreateBucket
     from storage_bucket.delete_bucket import BaseDeleteBucket
 
 create_bucket_register: dict[str, Callable[['BaseCreateBucket'], Any]] = {}
@@ -48,7 +48,7 @@ def get_delete_bucket(platform: Platform):
 
     if func is None:
         raise ValueError(
-            'No delete bucket function registered with platform: {platform}'.format(
+            'No delete_bucket registered with platform: {platform}'.format(
                 platform=platform.value,
             ),
         )

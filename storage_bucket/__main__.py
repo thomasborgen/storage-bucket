@@ -1,12 +1,12 @@
-from storage_bucket.aws.create import AWSCreateBucket
+from storage_bucket.aws.schema import AWSCreateBucket
 from storage_bucket.delete_bucket import BaseDeleteBucket, delete_bucket
 from storage_bucket.create_bucket import create_bucket
 from storage_bucket.enums import Platform
-from storage_bucket.gcp.create import GCPCreateBucket
+from storage_bucket.gcp.schema import GCPCreateBucket
 
 test = create_bucket(
     platform=Platform.gcp,
-    create_params=AWSCreateBucket(
+    create_params=GCPCreateBucket(
         name='test',
         location='norway',
         storage_class='STANDARD',
@@ -20,7 +20,7 @@ bob = create_bucket(
 
 bob = create_bucket(
     platform=Platform.aws,
-    create_params=GCPCreateBucket(name='bob'),
+    create_params=AWSCreateBucket(name='bob'),
 )
 
 delete_gcp = delete_bucket(

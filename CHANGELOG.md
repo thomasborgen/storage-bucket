@@ -8,8 +8,22 @@
 
 ## Latest Changes
 
+## 3.0.0
+
+Remove the callable classes. After we stopped using `returns` they weren't really doing anything. Removing this also removes about half the codebase and makes developing new features easier.
+
+### Breaking
+
+    * The callable classes like `DownloadFile` are removed.
+
+### Features
+
+    * Can now import directly from `storage_bucket`. Before: `from storage_bucket.download_file import download_file` -> `from storage_bucket import download_file`
+
+
 ### Docs
 
+    * Examples in docs now import functions directly from `storage_bucket`
     * Removes anything related to returns from docs (48)[https://github.com/thomasborgen/storage-bucket/issues/48]
 
 ## 2.0.0 - Return to life before `returns`

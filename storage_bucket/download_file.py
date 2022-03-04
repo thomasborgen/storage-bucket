@@ -1,14 +1,13 @@
-from attr import dataclass
-from typing_extensions import final
-
-from storage_bucket.get import GetBucket
+from storage_bucket.bucket import get_bucket
 
 
-@final
-@dataclass(frozen=True, slots=True)
-class DownloadFile(object):
+def download_file(
+    *,
+    storage_bucket_name: str,
+    filename: str,
+) -> bytes:
     """
-    Downloades a google cloud storage bucket file.
+    Download a google cloud storage bucket file.
 
     .. versionadded:: 0.1.0
 
@@ -20,30 +19,8 @@ class DownloadFile(object):
 
     :return: bytes
     """
+    bucket = get_bucket(storage_bucket_name=storage_bucket_name)
 
-    get_bucket = GetBucket()
+    blob = bucket.blob(filename)
 
-    def __call__(
-        self,
-        *,
-        storage_bucket_name: str,
-        filename: str,
-    ) -> bytes:
-        """Download storage bucket file."""
-        bucket = self.get_bucket(storage_bucket_name=storage_bucket_name)
-
-        blob = bucket.blob(filename)
-
-        return blob.download_as_bytes()
-
-
-def download_file(
-    *,
-    storage_bucket_name: str,
-    filename: str,
-) -> bytes:
-    """Run DownloadFile."""
-    return DownloadFile()(
-        storage_bucket_name=storage_bucket_name,
-        filename=filename,
-    )
+    return blob.download_as_bytes()

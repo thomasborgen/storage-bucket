@@ -40,7 +40,7 @@ export GOOGLE_APPLICATION_CREDENTIALS='key.json'
 
 ### Download
 ```python
-from storage_bucket.download_file import download_file
+from storage_bucket import download_file
 
 file_data = download_file('bucket', 'filename')
 
@@ -49,7 +49,7 @@ print(file_data)
 
 ### Upload
 ```python
-from storage_bucket.upload_file import upload_file
+from storage_bucket import upload_file
 
 upload_file(b'data', 'bucket_name', 'filename')
 ```

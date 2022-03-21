@@ -1,14 +1,16 @@
-from attr import dataclass
-from typing_extensions import final
-
-from storage_bucket.get import GetBucket
+from storage_bucket.bucket import get_bucket
 
 
-@final
-@dataclass(frozen=True, slots=True)
-class UploadFile(object):
+def upload_file(
+    *,
+    file_content: bytes,
+    storage_bucket_name: str,
+    filename: str,
+    content_type: str = 'application/octet-stream',
+    **kwargs: dict,
+) -> None:
     """
-    Uploades contents in file_data to a google cloud storage bucket.
+    Upload content of file_data to a google cloud storage bucket.
 
     .. versionadded:: 0.0.1
 
@@ -26,39 +28,11 @@ class UploadFile(object):
 
     :return: None
     """
+    bucket = get_bucket(storage_bucket_name=storage_bucket_name)
 
-    get_bucket = GetBucket()
-
-    def __call__(  # noqa: WPS211 allow to exceed 5 arguments
-        self,
-        file_content: bytes,
-        storage_bucket_name: str,
-        filename: str,
-        content_type: str = 'application/octet-stream',
-        **kwargs,
-    ) -> None:
-        """Download storage bucket file."""
-        bucket = self.get_bucket(storage_bucket_name=storage_bucket_name)
-
-        blob = bucket.blob(filename)
-        blob.upload_from_string(
-            file_content,
-            content_type=content_type,
-            **kwargs,
-        )
-
-
-def upload_file(
-    *,
-    file_content: bytes,
-    storage_bucket_name: str,
-    filename: str,
-    content_type: str = 'application/octet-stream',
-) -> None:
-    """Run UploadFile."""
-    return UploadFile()(
-        file_content=file_content,
-        storage_bucket_name=storage_bucket_name,
-        filename=filename,
+    blob = bucket.blob(filename)
+    blob.upload_from_string(
+        file_content,
         content_type=content_type,
+        **kwargs,
     )

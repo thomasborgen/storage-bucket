@@ -6,7 +6,7 @@ from google.api_core.exceptions import NotFound
 from storage_bucket.list_files import list_files
 
 
-def test_list_files_function(bucket_with_files):
+def test_list_files(bucket_with_files):
     """Test that we can list files in a storage bucket."""
     assert isinstance(list_files(storage_bucket_name=bucket_with_files[0]), set)
 

@@ -10,7 +10,7 @@ def upload_file(
     **kwargs: dict,
 ) -> None:
     """
-    Upload contents in file_data to a google cloud storage bucket.
+    Upload content of file_data to a google cloud storage bucket.
 
     .. versionadded:: 0.0.1
 

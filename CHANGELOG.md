@@ -14,7 +14,15 @@ Remove the callable classes. After we stopped using `returns` they weren't reall
 
 ### Breaking
 
-    * The callable classes like `DownloadFile` are removed.
+    * The Callable class `GetClient` is removed.
+    * The Callable class `GetBucket` is removed.
+    * The Callable class `CreateBucket` is removed.
+    * The Callable class `DeleteBucket` is removed.
+    * The Callable class `DeleteFile` is removed.
+    * The Callable class `DownloadFile` is removed.
+    * The Callable class `ListBuckets` is removed.
+    * The Callable class `ListFiles` is removed.
+    * The Callable class `UploadFile` is removed.
 
 ### Features
 

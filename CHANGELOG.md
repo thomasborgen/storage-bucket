@@ -8,6 +8,11 @@
 
 ## Latest Changes
 
+### Internal
+
+* Run CI for python 3.10
+
+
 ## 3.0.0
 
 Remove the callable classes. After we stopped using `returns` they weren't really doing anything. Removing this also removes about half the codebase and makes developing new features easier.

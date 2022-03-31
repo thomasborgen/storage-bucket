@@ -8,31 +8,35 @@
 
 ## Latest Changes
 
+### Internal
+
+* Run CI for python 3.10
+
 ## 3.0.0
 
 Remove the callable classes. After we stopped using `returns` they weren't really doing anything. Removing this also removes about half the codebase and makes developing new features easier.
 
 ### Breaking
 
-    * The Callable class `GetClient` is removed.
-    * The Callable class `GetBucket` is removed.
-    * The Callable class `CreateBucket` is removed.
-    * The Callable class `DeleteBucket` is removed.
-    * The Callable class `DeleteFile` is removed.
-    * The Callable class `DownloadFile` is removed.
-    * The Callable class `ListBuckets` is removed.
-    * The Callable class `ListFiles` is removed.
-    * The Callable class `UploadFile` is removed.
+* The Callable class `GetClient` is removed.
+* The Callable class `GetBucket` is removed.
+* The Callable class `CreateBucket` is removed.
+* The Callable class `DeleteBucket` is removed.
+* The Callable class `DeleteFile` is removed.
+* The Callable class `DownloadFile` is removed.
+* The Callable class `ListBuckets` is removed.
+* The Callable class `ListFiles` is removed.
+* The Callable class `UploadFile` is removed.
 
 ### Features
 
-    * Can now import directly from `storage_bucket`. Before: `from storage_bucket.download_file import download_file` -> `from storage_bucket import download_file`
+* Can now import directly from `storage_bucket`. Before: `from storage_bucket.download_file import download_file` -> `from storage_bucket import download_file`
 
 
 ### Docs
 
-    * Examples in docs now import functions directly from `storage_bucket`
-    * Removes anything related to returns from docs (48)[https://github.com/thomasborgen/storage-bucket/issues/48]
+* Examples in docs now import functions directly from `storage_bucket`
+* Removes anything related to returns from docs (48)[https://github.com/thomasborgen/storage-bucket/issues/48]
 
 ## 2.0.0 - Return to life before `returns`
 

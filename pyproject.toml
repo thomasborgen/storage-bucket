@@ -1,6 +1,6 @@
 [project]
 name = "storage-bucket"
-version = "3.0.0"
+version = "4.0.0"
 description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
 authors = [
     { name = "Thomas Borgen", email = "thomas@borgenit.no" },

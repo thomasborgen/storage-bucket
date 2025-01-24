@@ -6,11 +6,10 @@ def upload_file(
     file_content: bytes,
     storage_bucket_name: str,
     filename: str,
-    content_type: str = 'application/octet-stream',
-    **kwargs: dict,
+    content_type: str = "application/octet-stream",
+    **kwargs: dict[str, str],
 ) -> None:
-    """
-    Upload content of file_data to a google cloud storage bucket.
+    """Upload content of file_data to a google cloud storage bucket.
 
     .. versionadded:: 0.0.1
 

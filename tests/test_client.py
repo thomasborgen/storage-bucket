@@ -7,7 +7,7 @@ from typing_extensions import Final
 
 from storage_bucket.client import get_client
 
-ENV_VAR: Final[str] = 'GOOGLE_APPLICATION_CREDENTIALS'
+ENV_VAR: Final[str] = "GOOGLE_APPLICATION_CREDENTIALS"
 
 
 def test_get_client_function():
@@ -20,7 +20,7 @@ def test_get_client_function():
 def test_get_client_function_exception():
     """Conflicting name raises Conflict exception."""
     old = os.environ[ENV_VAR]
-    os.environ[ENV_VAR] = 'badfile'
+    os.environ[ENV_VAR] = "badfile"
     with pytest.raises(DefaultCredentialsError):
         get_client()
     os.environ[ENV_VAR] = old

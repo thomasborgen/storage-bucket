@@ -2,44 +2,41 @@ name: test
 
 on: [push]
 
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     types:
+#       - opened
+#       - synchronize
+
 jobs:
-  build:
+  test-backend:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 2
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
-
+        python-version: ['3.9', '3.10', '3.11', '3.12']
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Create gcloud key file
-      run: openssl base64 -d -A <<< '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' -out key.json
-
-    - name: Install poetry
-      run: |
-        curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
-    - name: Set up cache
-      uses: actions/cache@v1
-      with:
-        path: .venv
-        key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
-    - name: Install dependencies
-      run: |
-        poetry config virtualenvs.in-project true
-        poetry install
-    - name: Run tests
-      run: |
-        poetry run poetry check
-        poetry run pip check
-        poetry run flake8 .
-        poetry run pytest .
-        poetry run safety check --full-report
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        file: ./coverage.xml
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          # Install a specific version of uv.
+          version: "0.5.24"
+          enable-cache: true        
+      - name: Install the dependencies
+        run: uv sync --all-extras --group dev
+      - name: Create gcloud key file
+        run: openssl base64 -d -A <<< '${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}' -out key.json
+      - name: Run tests
+        run: |
+          uv run ruff check
+          uv run pytest .
+          uv run safety check --full-report

@@ -8,9 +8,22 @@
 
 ## Latest Changes
 
+
+
+## 4.0.0
+
+### Breaking
+
+* Drop support for python 3.6 - 3.8
+
+### Feature
+
+* Add py.typed file to mark that this library is typed.
+
 ### Internal
 
-* Run CI for python 3.10
+* Run CI for python 3.9, 3.10, 3.11, 3.12
+* Use `uv` instead of `poetry`
 
 ## 3.0.0
 

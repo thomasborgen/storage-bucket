@@ -8,14 +8,16 @@ from storage_bucket.list_files import list_files
 
 def test_list_files(bucket_with_files):
     """Test that we can list files in a storage bucket."""
-    assert isinstance(list_files(storage_bucket_name=bucket_with_files[0]), set)
+    assert isinstance(
+        list_files(storage_bucket_name=bucket_with_files[0]), set
+    )
 
 
 def test_list_files_with_prefix(bucket_with_files):
     """Test that we only get files with a certain prefix."""
     files = list_files(
         storage_bucket_name=bucket_with_files[0],
-        prefix='path',
+        prefix="path",
     )
     assert {blob.name for blob in files}.issubset(
         bucket_with_files[1],

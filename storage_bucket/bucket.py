@@ -5,7 +5,7 @@ from storage_bucket.client import get_client
 
 def get_bucket(
     storage_bucket_name: str,
-    **kwargs,
+    **kwargs: dict[str, str],
 ) -> Bucket:
     """Get a storage bucket."""
     client = get_client()

@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "storage-bucket"
+version = "3.0.0"
+description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
+authors = ["Thomas Borgen <thomas@borgenit.no>", "Dmytro Chasovskyi <dmitriy.chasovskoy@gmail.com>"]
+
+license = "MIT"
+readme = "docs/index.md"
+repository = "https://github.com/thomasborgen/storage-bucket"
+documentation = "https://thomasborgen.github.io/storage-bucket"
+
+keywords = [
+  "Storage Bucket",
+  "GCP",
+  "Google Cloud Platform",
+  "monad",
+  "functional programming"
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities"
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+google-cloud-storage = "^1.42.3"
+
+[tool.poetry.dev-dependencies]
+wemake-python-styleguide = "^0.15.3"
+mypy = "^0.910"
+isort = "^4.3.21"
+
+safety = "^1.10.3"
+
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+pytest-env = "^0.6.2"
+mkdocs-material = "^7.3.4"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

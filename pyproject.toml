@@ -1,9 +1,9 @@
-[tool.poetry]
+[project]
 name = "storage-bucket"
 version = "3.0.0"
 description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
 authors = ["Thomas Borgen <thomas@borgenit.no>", "Dmytro Chasovskyi <dmitriy.chasovskoy@gmail.com>"]
-
+readme = "docs/index.md"
 license = "MIT"
 readme = "docs/index.md"
 repository = "https://github.com/thomasborgen/storage-bucket"
@@ -13,34 +13,127 @@ keywords = [
   "Storage Bucket",
   "GCP",
   "Google Cloud Platform",
-  "monad",
-  "functional programming"
+  "GCP Storage Bucket",
 ]
 
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Intended Audience :: Developers",
-  "Operating System :: OS Independent",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Topic :: Utilities"
+requires-python = ">=3.9"
+dependencies = [
+    "google-cloud-storage>=2.19.0",
 ]
 
-[tool.poetry.dependencies]
-python = "^3.6"
-google-cloud-storage = "^1.42.3"
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+    "pytest-cov>=6.0.0",
+    "pytest>=8.3.4",
+    "pytest-env>=1.1.5",
+    "mkdocs-material>=9.5.50",
+    "ruff>=0.9.3",
+    "safety>=3.2.14",
+]
 
-[tool.poetry.dev-dependencies]
-wemake-python-styleguide = "^0.15.3"
-mypy = "^0.910"
-isort = "^4.3.21"
 
-safety = "^1.10.3"
+[tool.ruff]
+line-length = 79
+indent-width = 4
+target-version = "py311"
 
-pytest = "^6.2.5"
-pytest-cov = "^3.0.0"
-pytest-env = "^0.6.2"
-mkdocs-material = "^7.3.4"
+[tool.ruff.lint]
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "alembic/*",
+]
+select = [
+    # Regular flake8 rules
+    "C", "E", "F", "W", "S",
+    # flake8-bugbear rules
+    "B",
+    # extra flake rules
+    "YTT",
+    # Import sorting rules (isort replacement)
+    "I",
+    # Pylint rules
+    "PLC", "PLE", "PLR", "PLW",
+    # ruff rules
+    "RUF",
+    # Docstyle
+    "D",
+    # Max camplexity
+    "C90",
+]
 
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+ignore = [
+    "D100", # Docstring in modules
+    "D203", # Incompatible with D211
+    "D213", # Incompatible with D212
+    # FastApi uses a lot of dependency injection and performs calls/object inits
+    # in argument defaults.
+    "B008",
+]
+
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["D104"]
+"**/{tests}/*" = [
+    "D103", # Allow missing docstring in functions
+    "S101", # Allow asserts
+    "S106", # Allow hardcorded passwords in tests
+]
+"**/conftest.py" = [
+    "F811", # Allow redefinition (imported fixtures)
+]
+"**/utils.py" = [
+    "PLR0913", # Allow too many return statements
+]
+"warp/tags/**" = [
+    "D101", # Allow missing docstring
+]
+
+[tool.ruff.lint.mccabe]
+# Flag errors (`C901`) whenever the complexity level exceeds 6.
+max-complexity = 6
+
+[tool.ruff.lint.pylint]
+max-public-methods = 8
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[tool.ruff.isort]
+combine-as-imports = true
+
+[tool.mypy]
+plugins = [
+  "pydantic.mypy",
+]
+
+# follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
+# for strict mypy: (this is the tricky one :-))
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+# py.test options:
+norecursedirs = ["*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
+testpaths = [
+    "tests",
+]
+env = [
+    "GOOGLE_APPLICATION_CREDENTIALS=key.json",
+]

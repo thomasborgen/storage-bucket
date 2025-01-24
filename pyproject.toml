@@ -5,7 +5,6 @@ description = "Easy to work with Google Cloud Platform Storage Bucket wrapper"
 authors = ["Thomas Borgen <thomas@borgenit.no>", "Dmytro Chasovskyi <dmitriy.chasovskoy@gmail.com>"]
 readme = "docs/index.md"
 license = "MIT"
-readme = "docs/index.md"
 repository = "https://github.com/thomasborgen/storage-bucket"
 documentation = "https://thomasborgen.github.io/storage-bucket"
 

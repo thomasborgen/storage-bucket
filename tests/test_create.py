@@ -5,7 +5,7 @@ from typing_extensions import Final
 
 from storage_bucket.create import create_bucket
 
-LOCATION: Final[str] = 'EU'
+LOCATION: Final[str] = "EU"
 
 
 def test_create_bucket_function(creatable_bucket):

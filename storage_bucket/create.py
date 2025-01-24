@@ -7,7 +7,7 @@ def create_bucket(
     *,
     storage_bucket_name: str,
     location: str,
-    storage_class: str = 'STANDARD',
+    storage_class: str = "STANDARD",
 ) -> Bucket:
     """Create storage bucket."""
     client = get_client()

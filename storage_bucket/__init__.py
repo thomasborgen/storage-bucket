@@ -8,15 +8,15 @@ from storage_bucket.list import list_bucket_names, list_buckets
 from storage_bucket.list_files import list_files
 from storage_bucket.upload_file import upload_file
 
-__all__ = [  # noqa: WPS410
-    'get_bucket',
-    'get_client',
-    'create_bucket',
-    'delete_file',
-    'delete_bucket',
-    'download_file',
-    'list_files',
-    'list_bucket_names',
-    'list_buckets',
-    'upload_file',
+__all__ = [
+    "create_bucket",
+    "delete_bucket",
+    "delete_file",
+    "download_file",
+    "get_bucket",
+    "get_client",
+    "list_bucket_names",
+    "list_buckets",
+    "list_files",
+    "upload_file",
 ]

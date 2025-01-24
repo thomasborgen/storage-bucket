@@ -18,7 +18,7 @@ def test_list_buckets_not_found(existing_bucket):
     """Test that bucket is not listed."""
     buckets = list_buckets()
     bucket_names = list_bucket_names(buckets)
-    assert 'not_in_use' not in bucket_names
+    assert "not_in_use" not in bucket_names
 
 
 def test_list_bucket_names(existing_bucket):
@@ -30,4 +30,4 @@ def test_list_bucket_names(existing_bucket):
 def test_list_bucket_names_no_buckets():
     """Test when buckets are None."""
     with pytest.raises(AttributeError):
-        set(el for el in list_bucket_names({None}))  # noqa: WPS428, C401
+        set(el for el in list_bucket_names({None}))  # noqa: C401

@@ -5,7 +5,7 @@ def delete_bucket(
     *,
     storage_bucket_name: str,
     force: bool = False,
-    **kwargs,
+    **kwargs: dict[str, str],
 ) -> None:
     """Delete a storage bucket."""
     bucket = get_bucket(

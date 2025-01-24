@@ -8,9 +8,12 @@ from storage_bucket.delete import delete_bucket
 
 def test_delete_bucket_function(deletable_bucket):
     """Delete bucket returns None."""
-    assert delete_bucket(  # type: ignore
-        storage_bucket_name=deletable_bucket,
-    ) is None
+    assert (
+        delete_bucket(  # type: ignore
+            storage_bucket_name=deletable_bucket,
+        )
+        is None
+    )
 
 
 def test_delete_bucket_function_raises():

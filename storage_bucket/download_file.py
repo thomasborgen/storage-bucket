@@ -6,8 +6,7 @@ def download_file(
     storage_bucket_name: str,
     filename: str,
 ) -> bytes:
-    """
-    Download a google cloud storage bucket file.
+    """Download a google cloud storage bucket file.
 
     .. versionadded:: 0.1.0
 

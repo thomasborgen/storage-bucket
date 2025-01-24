@@ -8,10 +8,13 @@ from storage_bucket.delete_file import delete_file
 
 def test_delete_file_function(bucket_and_deletable_file):
     """Test deleting a file okay returns None."""
-    assert delete_file(  # type: ignore
-        storage_bucket_name=bucket_and_deletable_file[0],
-        filename=bucket_and_deletable_file[1],
-    ) is None
+    assert (
+        delete_file(  # type: ignore
+            storage_bucket_name=bucket_and_deletable_file[0],
+            filename=bucket_and_deletable_file[1],
+        )
+        is None
+    )
 
 
 def test_delete_file_raises_when_no_such_file(existing_bucket):
@@ -28,5 +31,5 @@ def test_delete_file_raises_when_no_such_bucket():
     with pytest.raises(NotFound):
         delete_file(
             storage_bucket_name=uuid.uuid1().hex,
-            filename='test.txt',
+            filename="test.txt",
         )

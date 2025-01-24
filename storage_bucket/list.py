@@ -5,12 +5,12 @@ from google.cloud.storage import Bucket
 from storage_bucket.client import get_client
 
 
-def list_buckets(
+def list_buckets(  # noqa: PLR0913
     max_results: Optional[int] = None,
     page_token: Optional[str] = None,
     prefix: Optional[str] = None,
-    fields: Optional[Set] = None,
-    projection: str = 'noAcl',
+    fields: Optional[Set] = None,  # type: ignore
+    projection: str = "noAcl",
     project: Optional[str] = None,
     timeout: Union[float, int] = 60,
 ) -> Set[Bucket]:
@@ -36,4 +36,4 @@ def list_bucket_names(buckets: Set[Bucket]) -> Iterator[str]:
 
     Raise NoneType Exception when Bucket is None.
     """
-    return map(lambda bucket: bucket.name, buckets)
+    return map(lambda bucket: bucket.name, buckets)  # noqa: C417

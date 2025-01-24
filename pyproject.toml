@@ -6,10 +6,8 @@ authors = [
     { name = "Thomas Borgen", email = "thomas@borgenit.no" },
     { name = "Dmytro Chasovskyi", email = "dmitriy.chasovskoy@gmail.com" },
 ]
-readme = "docs/index.md"
-license = "MIT"
-repository = "https://github.com/thomasborgen/storage-bucket"
-documentation = "https://thomasborgen.github.io/storage-bucket"
+readme = {file = "docs/index.md", content-type = "text/markdown"}
+license = {"text" = "MIT"}
 
 keywords = [
   "Storage Bucket",
@@ -18,10 +16,14 @@ keywords = [
   "GCP Storage Bucket",
 ]
 
+
+
 requires-python = ">=3.9"
 dependencies = [
     "google-cloud-storage>=2.19.0",
 ]
+
+
 
 [dependency-groups]
 dev = [
@@ -33,6 +35,12 @@ dev = [
     "ruff>=0.9.3",
     "safety>=3.2.14",
 ]
+
+[project.urls]
+Homepage = "https://github.com/thomasborgen/storage-bucket"
+Documentation = "https://github.com/thomasborgen/storage-bucket"
+Repository = "https://github.com/thomasborgen/storage-bucket"
+Changelog = "https://github.com/thomasborgen/storage-bucket/blob/main/CHANGELOG.md"
 
 
 [tool.ruff]

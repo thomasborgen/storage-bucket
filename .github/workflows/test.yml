@@ -31,7 +31,7 @@ jobs:
           version: "0.4.15"
           enable-cache: true        
       - name: Install the dependencies
-        run: uv sync --all-extras --dev
+        run: uv sync --all-extras --group dev
       - name: Run tests
         run: |
           uv run ruff check
